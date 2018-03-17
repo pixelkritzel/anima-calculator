@@ -3,6 +3,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 
 import { Button, ButtonGroup } from 'react-bootstrap';
+import EditableTextField from './EditableTextfield';
 
 import { ICharakterModel } from '../store/characterModel';
 
@@ -19,12 +20,19 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
     return (
       <tr>
         <td>{index}</td>
-        <td>{character.name}</td>
+        <td>
+          <EditableTextField text={character.name} onSave={character.setName} />
+        </td>
         <td>{character.group} </td>
-        <td>{character.baseInitiative}</td>
+        <td>
+          <EditableTextField
+            text={character.baseInitiative.toString()}
+            type="number"
+            onSave={value => character.setBaseInitiative(parseInt(value, 10))}
+          />
+        </td>
         <th>
           <ButtonGroup>
-            <Button bsStyle="primary">Edit</Button>
             <Button bsStyle="danger">Delete</Button>
           </ButtonGroup>
         </th>

@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Button, Col, Row, Table } from 'react-bootstrap';
+import { Col, Row, Table } from 'react-bootstrap';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import { appStore } from '../store';
 
 import CharacterTableRow from './CharacterTableRow';
-import Modal from './Modal';
 
 @observer
 class CharactersTable extends React.Component {
@@ -32,8 +31,6 @@ class CharactersTable extends React.Component {
               ))}
             </tbody>
           </Table>
-          <Button onClick={() => (this.showAddUserForm = true)}>Add character</Button>
-          {this.showAddUserForm && <Modal onClose={() => (this.showAddUserForm = false)}>Add user form</Modal>}
         </Col>
       </Row>
     );
