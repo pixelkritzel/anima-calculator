@@ -2,13 +2,14 @@ import * as React from 'react';
 
 import { observer } from 'mobx-react';
 
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 import EditableTextField from './EditableTextfield';
 
-import { ICharakterModel } from '../store/characterModel';
+import { appStore } from '../store';
+import { ICharacterModel } from '../store/characterModel';
 
 type ICharactersTableRowProps = {
-  character: ICharakterModel;
+  character: ICharacterModel;
   index: number;
   key: string;
 };
@@ -33,7 +34,9 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         </td>
         <th>
           <ButtonGroup>
-            <Button bsStyle="danger">Delete</Button>
+            <Button color="danger" onClick={() => appStore.deleteCharacter(character)}>
+              Delete
+            </Button>
           </ButtonGroup>
         </th>
       </tr>

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { observer } from 'mobx-react';
 
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 
 import { ICharakterInFightModel } from '../store/charakterInFightModel';
 
@@ -38,9 +38,9 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         <th>nobody</th>
         <th>
           <ButtonGroup>
-            <Button bsStyle="primary">Edit</Button>
+            <Button color="primary">Edit</Button>
             <Button onClick={character.rolld100}>Roll D100</Button>
-            <Button bsStyle="danger">Delete</Button>
+            <Button color="danger">Delete</Button>
           </ButtonGroup>
         </th>
       </tr>

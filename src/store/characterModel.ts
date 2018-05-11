@@ -1,5 +1,12 @@
 import { types } from 'mobx-state-tree';
 
+export type characterInitialDataType = {
+  id?: string;
+  name: string;
+  group: string;
+  baseInitiative: number;
+};
+
 export const characterModel = types
   .model('character', {
     id: types.identifier(types.string),
@@ -27,4 +34,4 @@ export const characterModel = types
     }
   }));
 
-export type ICharakterModel = typeof characterModel.Type;
+export type ICharacterModel = typeof characterModel.Type;

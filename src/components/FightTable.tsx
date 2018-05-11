@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Col, Row, Table } from 'react-bootstrap';
+import { Col, Row, Table } from 'reactstrap';
 import { observer } from 'mobx-react';
 
 import { appStore } from '../store';
@@ -12,7 +12,7 @@ class Charakter extends React.Component {
     return (
       <Row>
         <Col xs={12}>
-          <Table striped={true} bordered={true} condensed={true} hover={true}>
+          <Table striped={true} bordered={true} hover={true}>
             <thead>
               <tr>
                 <th>#</th>

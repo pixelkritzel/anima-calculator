@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
@@ -25,15 +25,13 @@ class CharacterForm extends React.Component<IModalProps, {}> {
       this.isModalOpen = this.props.isModalOpen;
     }
     return (
-      <Modal show={this.isModalOpen} onHide={this.closeModal}>
-        <Modal.Header closeButton={true}>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body />
+      <Modal isOpen={this.isModalOpen} onExit={this.closeModal}>
+        <ModalHeader>Modal heading</ModalHeader>
+        <ModalBody />
         {this.props.children}
-        <Modal.Footer>
+        <ModalFooter>
           <Button onClick={this.closeModal}>Close</Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     );
   }

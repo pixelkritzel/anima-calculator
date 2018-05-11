@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Button, ControlLabel, Form, FormControl, FormGroup, Row } from 'react-bootstrap';
+import { Button, Input, Label, Form, FormGroup, Row } from 'reactstrap';
 
 import FightTable from './FightTable';
 
@@ -21,19 +21,20 @@ class Fight extends React.Component {
       <div>
         <Row>
           <Form inline={true}>
-            <FormGroup controlId="addCharacterToFight">
-              <ControlLabel>Add character to fight:</ControlLabel>
-              <FormControl
-                componentClass="select"
+            <FormGroup>
+              <Label>Add character to fight:</Label>
+              <Input
+                type="select"
+                name="select"
                 placeholder="select"
-                inputRef={ref => (this.addCharacterToFightSelectRef = ref)}
+                innerRef={(ref: HTMLInputElement) => (this.addCharacterToFightSelectRef = ref)}
               >
                 {appStore.charactersNotInFight.map(char => (
                   <option key={`add-character-to-fight-${char.name}`} value={char.name}>
                     {char.name}
                   </option>
                 ))}
-              </FormControl>
+              </Input>
             </FormGroup>
             <Button onClick={this.onAddCharacterToFight}>Add</Button>
           </Form>

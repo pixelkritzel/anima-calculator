@@ -1,19 +1,9 @@
-import { types } from 'mobx-state-tree';
+import { destroy, types } from 'mobx-state-tree';
 
-import { characterModel } from './characterModel';
+import generateUUID from '../utils/generateUUID';
+
+import { characterModel, ICharacterModel, characterInitialDataType } from './characterModel';
 import { characterInFightModel } from './charakterInFightModel';
-
-function generateUUID() {
-  var d = new Date().getTime();
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c: string) {
-    // tslint:disable-next-line
-    var r = ((d + Math.random() * 16) % 16) | 0;
-    d = Math.floor(d / 16);
-    // tslint:disable-next-line
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
-  });
-  return uuid;
-}
 
 const initialData = {
   characters: [
@@ -38,12 +28,23 @@ const appStoreConstructor = types
     idCounter: 0
   })
   .actions(self => ({
+    addCharacter(characterData: characterInitialDataType) {
+      characterData.id = generateUUID();
+      self.characters.push(characterModel.create(characterData));
+    },
     addCharacterToFight(toBeAddedCharacterName: string) {
       const baseCharacter = self.characters.find(char => char.name === toBeAddedCharacterName);
       if (baseCharacter) {
         const characterInFight = characterInFightModel.create({ baseCharacter });
         self.fight.fightingCharacters.push(characterInFight);
       }
+    },
+    deleteCharacter(character: ICharacterModel) {
+      const characterInFight = self.fight.fightingCharacters.find(fightChar => fightChar.baseCharacter === character);
+      if (characterInFight) {
+        destroy(characterInFight);
+      }
+      destroy(character);
     }
   }))
   .views(self => ({
