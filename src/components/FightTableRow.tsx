@@ -78,7 +78,13 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         </td>
         <td>{character.d100}</td>
         <td>{character.currentInitiative}</td>
-        <th>{character.advantageAgainst.map(opponent => opponent.baseCharacter.name)}</th>
+        <th>
+          <ul>
+            {character.advantageAgainst.map(opponent => (
+              <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>opponent.baseCharacter.name</li>
+            ))}
+          </ul>
+        </th>
         <th>
           <ButtonGroup>
             <Button onClick={character.rolld100}>Roll D100</Button>
