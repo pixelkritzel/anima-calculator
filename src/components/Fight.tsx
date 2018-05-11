@@ -30,7 +30,7 @@ class Fight extends React.Component {
                 innerRef={(ref: HTMLInputElement) => (this.addCharacterToFightSelectRef = ref)}
               >
                 {appStore.charactersNotInFight.map(char => (
-                  <option key={`add-character-to-fight-${char.name}`} value={char.name}>
+                  <option key={`add-character-to-fight-${char.id}`} value={char.name}>
                     {char.name}
                   </option>
                 ))}

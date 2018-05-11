@@ -1,19 +1,21 @@
-import { destroy, types } from 'mobx-state-tree';
-
+import { destroy, onPatch, types } from 'mobx-state-tree';
 import generateUUID from '../utils/generateUUID';
 
 import { characterModel, ICharacterModel, characterInitialDataType } from './characterModel';
 import { characterInFightModel } from './charakterInFightModel';
 
+const jsonCharacters = localStorage.getItem('animaCharacters');
+
+let savedCharacters;
+
+if (jsonCharacters) {
+  try {
+    savedCharacters = JSON.parse(jsonCharacters);
+  } catch (e) {} // tslint:disable-line
+}
+
 const initialData = {
-  characters: [
-    {
-      id: generateUUID(),
-      name: 'Strauchdieb',
-      group: 'NSC',
-      baseInitiative: 10
-    }
-  ]
+  characters: savedCharacters || []
 };
 
 const appStoreConstructor = types
@@ -56,3 +58,7 @@ const appStoreConstructor = types
   }));
 
 export const appStore = appStoreConstructor.create(initialData);
+
+onPatch(appStore, () => {
+  localStorage.setItem('animaCharacters', JSON.stringify(appStore.characters));
+});
