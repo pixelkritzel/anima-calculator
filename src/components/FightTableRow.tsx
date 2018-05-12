@@ -81,7 +81,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         <th>
           <ul>
             {character.advantageAgainst.map(opponent => (
-              <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>opponent.baseCharacter.name</li>
+              <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>{opponent.baseCharacter.name}</li>
             ))}
           </ul>
         </th>
