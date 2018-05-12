@@ -33,7 +33,17 @@ export const characterInFightModel = types
       self.modifiers.splice(index - 1, 1);
     },
     rolld100() {
-      self.d100 = d100();
+      let lastRoll = 100;
+      let result = 0;
+      while (lastRoll > 90) {
+        lastRoll = d100();
+        if (lastRoll < 4) {
+          result -= d100();
+        } else {
+          result += lastRoll;
+        }
+      }
+      self.d100 = result;
     }
   }))
   .views(self => ({
