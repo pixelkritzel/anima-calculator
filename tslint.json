@@ -10,6 +10,7 @@
     "forin": true,
     "indent": [true, "spaces"],
     "interface-name": [true, "never-prefix"],
+    "jsx-boolean-value": false,
     "jsdoc-format": true,
     "jsx-no-lambda": false,
     "jsx-no-multiline-js": false,

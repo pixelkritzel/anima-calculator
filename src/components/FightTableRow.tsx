@@ -2,7 +2,11 @@ import * as React from 'react';
 
 import { observer } from 'mobx-react';
 
-import { Button, ButtonGroup, Form, FormGroup, Label, Input } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
+
 import { FaCheck } from 'react-icons/lib/fa';
 
 import { ICharakterInFightModel } from '../store/charakterInFightModel';
@@ -26,15 +30,15 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
 
   renderModifierForm() {
     return (
-      <Form>
-        <FormGroup>
-          <Label>Modfier value</Label>
-          <Input type="number" onChange={event => (this.modifier.value = parseInt(event.target.value, 10))} />
-        </FormGroup>
-        <FormGroup>
-          <Label>Modfier reason</Label>
-          <Input type="text" onChange={event => (this.modifier.reason = event.target.value)} />
-        </FormGroup>
+      <form>
+        <TextField
+          label="Modfier value"
+          type="number"
+          onChange={event => (this.modifier.value = parseInt(event.target.value, 10))}
+        />
+
+        <TextField label="Modfier reason" type="text" onChange={event => (this.modifier.reason = event.target.value)} />
+
         <Button
           onClick={() => {
             this.props.character.addModifier(this.modifier);
@@ -43,23 +47,23 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         >
           <FaCheck /> Add modifier
         </Button>
-      </Form>
+      </form>
     );
   }
 
   render() {
     const { character, index } = this.props;
     return (
-      <tr>
-        <td>{index}</td>
-        <td>{character.baseCharacter.name}</td>
-        <td>{character.baseCharacter.group} </td>
-        <td>{character.baseCharacter.baseInitiative}</td>
-        <td>
+      <TableRow>
+        <TableCell>{index}</TableCell>
+        <TableCell>{character.baseCharacter.name}</TableCell>
+        <TableCell>{character.baseCharacter.group} </TableCell>
+        <TableCell>{character.baseCharacter.baseInitiative}</TableCell>
+        <TableCell>
           {this.showModifierForm ? (
             this.renderModifierForm()
           ) : (
-            <Button color="link" onClick={() => (this.showModifierForm = true)}>
+            <Button variant="text" onClick={() => (this.showModifierForm = true)}>
               Add modifier
             </Button>
           )}
@@ -69,29 +73,27 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
                 {mod.value}
                 {mod.reason && ' - '}
                 {mod.reason}
-                <Button color="link" onClick={() => character.removeModifier(mod.id)}>
+                <Button variant="text" onClick={() => character.removeModifier(mod.id)}>
                   &times;
                 </Button>
               </li>
             ))}
           </ul>
-        </td>
-        <td>{character.d100}</td>
-        <td>{character.currentInitiative}</td>
-        <th>
+        </TableCell>
+        <TableCell>{character.d100}</TableCell>
+        <TableCell>{character.currentInitiative}</TableCell>
+        <TableCell>
           <ul>
             {character.advantageAgainst.map(opponent => (
               <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>{opponent.baseCharacter.name}</li>
             ))}
           </ul>
-        </th>
-        <th>
-          <ButtonGroup>
-            <Button onClick={character.rolld100}>Roll D100</Button>
-            <Button color="danger">Delete</Button>
-          </ButtonGroup>
-        </th>
-      </tr>
+        </TableCell>
+        <TableCell>
+          <Button onClick={character.rolld100}>Roll D100</Button>
+          <Button color="secondary">Delete</Button>
+        </TableCell>
+      </TableRow>
     );
   }
 }

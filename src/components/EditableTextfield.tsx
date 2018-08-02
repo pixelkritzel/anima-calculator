@@ -3,7 +3,8 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { FaPencil, FaCheck } from 'react-icons/lib/fa';
 
-import { Button } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 type IEditableTextfieldProps = {
   onSave?: (value: string) => void;
@@ -34,7 +35,7 @@ class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
     return (
       <span>
         {text}{' '}
-        <Button color="link" onClick={this.toggleIsEditable}>
+        <Button variant="text" onClick={this.toggleIsEditable}>
           <FaPencil />
         </Button>
       </span>
@@ -46,11 +47,11 @@ class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
     const usedType = type || 'text';
     return (
       <span>
-        <input type={usedType} defaultValue={text} ref={ref => (this.inputRef = ref)} />
-        <Button size="xsmall" onClick={this.toggleIsEditable}>
+        <TextField type={usedType} defaultValue={text} inputRef={ref => (this.inputRef = ref)} />
+        <Button size="small" onClick={this.toggleIsEditable}>
           &times;
         </Button>
-        <Button size="xsmall" onClick={this.saveChanges}>
+        <Button size="small" onClick={this.saveChanges}>
           <FaCheck />
         </Button>
       </span>

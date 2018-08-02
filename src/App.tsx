@@ -1,54 +1,32 @@
 import * as React from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import * as classnames from 'classnames';
-import { Container, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 
 import Fight from './components/Fight';
 import CharactersTable from './components/CharactersTable';
-
-import './stylesheets/bootstrap.css';
-import './stylesheets/App.css';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 
 @observer
 class App extends React.Component {
   @observable activeTab = 'charactersPane';
+
   render() {
     return (
-      <div>
-        <Container>
-          <Nav tabs={true}>
-            <NavItem>
-              <NavLink
-                className={classnames({ active: this.activeTab === 'charactersPane' })}
-                onClick={() => {
-                  this.activeTab = 'charactersPane';
-                }}
-              >
-                Characters
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({ active: this.activeTab === 'fightPane' })}
-                onClick={() => {
-                  this.activeTab = 'fightPane';
-                }}
-              >
-                Fight
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={this.activeTab}>
-            <TabPane tabId={'charactersPane'}>
-              <CharactersTable />
-            </TabPane>
-            <TabPane tabId={'fightPane'}>
-              <Fight />
-            </TabPane>
-          </TabContent>
-        </Container>
-      </div>
+      <>
+        <Tabs
+          value={this.activeTab}
+          onChange={(_, value) => (this.activeTab = value)}
+          indicatorColor="primary"
+          textColor="primary"
+          centered={true}
+        >
+          <Tab label="Characters" value="charactersPane" />
+          <Tab label="Fight" value="fightPane" />
+        </Tabs>
+        {this.activeTab === 'charactersPane' && <CharactersTable />}
+        {this.activeTab === 'fightPane' && <Fight />}
+      </>
     );
   }
 }

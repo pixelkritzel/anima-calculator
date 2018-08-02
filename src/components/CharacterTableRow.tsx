@@ -2,7 +2,9 @@ import * as React from 'react';
 
 import { observer } from 'mobx-react';
 
-import { Button, ButtonGroup } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 import EditableTextField from './EditableTextfield';
 
 import { appStore } from '../store';
@@ -19,27 +21,23 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   render() {
     const { character, index } = this.props;
     return (
-      <tr>
-        <td>{index}</td>
-        <td>
+      <TableRow>
+        <TableCell>{index}</TableCell>
+        <TableCell>
           <EditableTextField text={character.name} onSave={character.setName} />
-        </td>
-        <td>{character.group} </td>
-        <td>
+        </TableCell>
+        <TableCell>{character.group} </TableCell>
+        <TableCell>
           <EditableTextField
             text={character.baseInitiative.toString()}
             type="number"
             onSave={value => character.setBaseInitiative(parseInt(value, 10))}
           />
-        </td>
-        <th>
-          <ButtonGroup>
-            <Button color="danger" onClick={() => appStore.deleteCharacter(character)}>
-              Delete
-            </Button>
-          </ButtonGroup>
-        </th>
-      </tr>
+        </TableCell>
+        <TableCell>
+          <Button onClick={() => appStore.deleteCharacter(character)}>Delete</Button>
+        </TableCell>
+      </TableRow>
     );
   }
 }
