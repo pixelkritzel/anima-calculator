@@ -1,6 +1,6 @@
 import { getParent, types } from 'mobx-state-tree';
 
-import d100 from '../utils/d100';
+import rollD100 from '../utils/d100';
 import generateUUID from '../utils/generateUUID';
 
 import { characterModel } from './characterModel';
@@ -33,17 +33,7 @@ export const characterInFightModel = types
       self.modifiers.splice(index - 1, 1);
     },
     rolld100() {
-      let lastRoll = 100;
-      let result = 0;
-      while (lastRoll > 90) {
-        lastRoll = d100();
-        if (lastRoll < 4) {
-          result -= d100();
-        } else {
-          result += lastRoll;
-        }
-      }
-      self.d100 = result;
+      self.d100 = rollD100();
     }
   }))
   .views(self => ({
