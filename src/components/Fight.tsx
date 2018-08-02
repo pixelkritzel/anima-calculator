@@ -27,9 +27,9 @@ class Fight extends React.Component {
   render() {
     return (
       <>
-        <form>
-          <Grid container>
-            <Grid item>
+        <Grid container>
+          <Grid item xs>
+            <form>
               <FormGroup>
                 <InputLabel htmlFor="add-character-to-fight">Add character to fight:</InputLabel>
                 <Select
@@ -46,12 +46,14 @@ class Fight extends React.Component {
                   ))}
                 </Select>
               </FormGroup>
-            </Grid>
-            <Grid item>
               <Button onClick={this.onAddCharacterToFight}>Add</Button>
-            </Grid>
+            </form>
           </Grid>
-        </form>
+          <Grid item xs>
+            <Button disabled={}>Start turn</Button>
+            <Button>New Turn</Button>
+          </Grid>
+        </Grid>
 
         <FightTable />
       </>
