@@ -1,5 +1,5 @@
 import { getParent, types } from 'mobx-state-tree';
-
+import { isNull } from 'lodash';
 import rollD100 from '../utils/d100';
 import generateUUID from '../utils/generateUUID';
 
@@ -20,6 +20,7 @@ const ModifierModel = types.model({
 export const characterInFightModel = types
   .model('character', {
     baseCharacter: types.reference(characterModel),
+    manualCurrentInitiative: types.maybe(types.number),
     modifiers: types.optional(types.array(ModifierModel), () => []),
     d100: 0
   })
@@ -34,16 +35,26 @@ export const characterInFightModel = types
     },
     rolld100() {
       self.d100 = rollD100();
+    },
+    updateManualCurrentInitiative(newIni: number) {
+      self.manualCurrentInitiative = newIni;
     }
   }))
   .views(self => ({
     get currentInitiative() {
       const sumOfModifiers = self.modifiers.reduce((prev, mod) => prev + mod.value, 0);
-      return self.baseCharacter.baseInitiative + sumOfModifiers + self.d100;
+      return self.baseCharacter.group === 'nsc'
+        ? self.baseCharacter.baseInitiative + sumOfModifiers + self.d100
+        : self.manualCurrentInitiative;
     },
     get advantageAgainst() {
       const allOpponents: ICharakterInFightModel[] = getParent(self);
-      return allOpponents.filter(opponent => opponent.currentInitiative + 150 < this.currentInitiative);
+      return allOpponents.filter(
+        opponent =>
+          !isNull(opponent.currentInitiative) &&
+          !isNull(this.currentInitiative) &&
+          opponent.currentInitiative + 150 < this.currentInitiative
+      );
     }
   }));
 

@@ -2,7 +2,9 @@
   "name": "anima-calculator",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.10"
+  },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
@@ -13,20 +15,21 @@
     "@material-ui/core": "^1.4.2",
     "@material-ui/icons": "^2.0.0",
     "@types/classnames": "^2.2.3",
-    "@types/react-icons": "^2.2.5",
     "@types/jest": "^22.2.0",
+    "@types/lodash": "^4.14.115",
     "@types/node": "^9.4.7",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
+    "@types/react-icons": "^2.2.5",
     "@types/reactstrap": "^5.0.25",
     "classnames": "^2.2.5",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
+    "mobx-state-tree": "^2.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-icons": "^2.2.7",
     "react-scripts-ts": "2.14.0",
-    "mobx": "^4.1.0",
-    "mobx-react": "^5.0.0",
-    "mobx-state-tree": "^2.0.1",
     "typescript": "^2.7.2"
   }
 }

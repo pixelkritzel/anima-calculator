@@ -1,6 +1,6 @@
 import * as React from 'react';
-
 import { observer } from 'mobx-react';
+import { isNull } from 'lodash';
 
 import Button from '@material-ui/core/Button';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +11,15 @@ import { FaCheck } from 'react-icons/lib/fa';
 
 import { ICharakterInFightModel } from '../store/charakterInFightModel';
 import { observable } from 'mobx';
+
+const PlayerIniInput = observer(({ character }: { character: ICharakterInFightModel }) => (
+  <TextField
+    error={isNull(character.manualCurrentInitiative)}
+    type="number"
+    value={!isNull(character.manualCurrentInitiative) ? character.manualCurrentInitiative : ''}
+    onChange={event => character.updateManualCurrentInitiative(Number(event.target.value))}
+  />
+));
 
 type ICharactersTableRowProps = {
   character: ICharakterInFightModel;
@@ -80,8 +89,14 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
             ))}
           </ul>
         </TableCell>
-        <TableCell>{character.d100}</TableCell>
-        <TableCell>{character.currentInitiative}</TableCell>
+        <TableCell>{character.baseCharacter.group === 'nsc' ? character.d100 : '-'}</TableCell>
+        <TableCell>
+          {character.baseCharacter.group === 'nsc' ? (
+            character.currentInitiative
+          ) : (
+            <PlayerIniInput character={character} />
+          )}
+        </TableCell>
         <TableCell>
           <ul>
             {character.advantageAgainst.map(opponent => (
@@ -90,7 +105,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
           </ul>
         </TableCell>
         <TableCell>
-          <Button onClick={character.rolld100}>Roll D100</Button>
+          {character.baseCharacter.group === 'nsc' && <Button onClick={character.rolld100}>Roll D100</Button>}
           <Button color="secondary">Delete</Button>
         </TableCell>
       </TableRow>

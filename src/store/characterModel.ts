@@ -11,7 +11,7 @@ export const characterModel = types
   .model('character', {
     id: types.identifier(types.string),
     name: types.string,
-    group: types.string,
+    group: types.enumeration(['player', 'nsc']),
     baseInitiative: types.number,
     modifiers: types.optional(
       types.array(
