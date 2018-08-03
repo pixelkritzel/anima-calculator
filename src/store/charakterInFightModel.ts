@@ -22,24 +22,9 @@ export const characterInFightModel = types
     baseCharacter: types.reference(characterModel),
     manualCurrentInitiative: types.maybe(types.number),
     modifiers: types.optional(types.array(ModifierModel), () => []),
-    d100: 0
+    d100: 0,
+    acted: false
   })
-  .actions(self => ({
-    addModifier(modifierData: IModifierData) {
-      modifierData.id = generateUUID();
-      self.modifiers.push(ModifierModel.create(modifierData));
-    },
-    removeModifier(id: string) {
-      const index = self.modifiers.findIndex(mod => mod.id === id);
-      self.modifiers.splice(index - 1, 1);
-    },
-    rolld100() {
-      self.d100 = rollD100();
-    },
-    updateManualCurrentInitiative(newIni: number) {
-      self.manualCurrentInitiative = newIni;
-    }
-  }))
   .views(self => ({
     get currentInitiative() {
       const sumOfModifiers = self.modifiers.reduce((prev, mod) => prev + mod.value, 0);
@@ -55,6 +40,25 @@ export const characterInFightModel = types
           !isNull(this.currentInitiative) &&
           opponent.currentInitiative + 150 < this.currentInitiative
       );
+    }
+  }))
+  .actions(self => ({
+    addModifier(modifierData: IModifierData) {
+      modifierData.id = generateUUID();
+      self.modifiers.push(ModifierModel.create(modifierData));
+    },
+    removeModifier(id: string) {
+      const index = self.modifiers.findIndex(mod => mod.id === id);
+      self.modifiers.splice(index - 1, 1);
+    },
+    rolld100() {
+      self.d100 = rollD100();
+    },
+    toogleActed() {
+      self.acted = !self.acted;
+    },
+    updateManualCurrentInitiative(newIni: number) {
+      self.manualCurrentInitiative = newIni;
     }
   }));
 

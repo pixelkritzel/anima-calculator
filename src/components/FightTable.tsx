@@ -17,6 +17,7 @@ class Charakter extends React.Component {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>Acted</TableCell>
             <TableCell>#</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Group</TableCell>
@@ -29,7 +30,7 @@ class Charakter extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-          {appStore.fight.fightingCharacters.map((character, index: number) => (
+          {appStore.fight.fightingCharactersByPhase.map((character, index: number) => (
             <FightTableRow key={`charakter-${index}`} index={index} character={character} />
           ))}
         </TableBody>
