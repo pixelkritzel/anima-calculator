@@ -18,6 +18,12 @@ class Fight extends React.Component {
   @observable
   selectedCharacter: string | undefined = appStore.charactersNotInFight[0] && appStore.charactersNotInFight[0].id;
 
+  newFight() {
+    if (confirm('Are you sure you want to remove ALL characters from the current fight and start a new one?')) {
+      appStore.fight.newFight();
+    }
+  }
+
   onAddCharacterToFight = () => {
     if (this.selectedCharacter) {
       appStore.addCharacterToFight(this.selectedCharacter);
@@ -57,6 +63,7 @@ class Fight extends React.Component {
           <Button disabled={appStore.fight.phase === 'new'} onClick={appStore.fight.nextCharacter}>
             Next Character
           </Button>
+          <Button onClick={this.newFight}>New Fight</Button>
         </Grid>
 
         <Grid item xs={12}>

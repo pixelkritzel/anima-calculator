@@ -36,6 +36,9 @@ export const fightModel = types
     }
   }))
   .actions(self => ({
+    newFight() {
+      self.fightingCharacters.clear();
+    },
     newTurn() {
       self.phase = 'new';
       self.fightingCharacters.forEach(character => {
