@@ -7,6 +7,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { appStore, applyImportedData } from 'src/store';
 
+// Don't ask why ... https://github.com/mui-org/material-ui/issues/12486#issuecomment-412351212
+function LabelForImportJSON({ children, ...otherProps }: { children: React.ReactNode }) {
+  return (
+    <label htmlFor="import-json" {...otherProps}>
+      {children}
+    </label>
+  );
+}
+
 @observer
 export default class SideMenu extends React.Component {
   getURLEncodedJSON() {
@@ -40,7 +49,7 @@ export default class SideMenu extends React.Component {
           <ListItem button component="a" href={this.getURLEncodedJSON()} download="anima.json">
             <ListItemText primary="Export" />
           </ListItem>
-          <ListItem button component="label" htmlFor="import-json">
+          <ListItem button component={LabelForImportJSON}>
             <ListItemText primary="Import" />
           </ListItem>
           <input className="visually-hidden" type="file" id="import-json" onChange={this.readFile} />
