@@ -18,6 +18,12 @@ type ICharactersTableRowProps = {
 
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
+  deleteCharacter = (character: ICharacterModel) => {
+    if (confirm(`Do you really want to delete ${character.name}?`)) {
+      appStore.deleteCharacter(character);
+    }
+  };
+
   render() {
     const { character, index } = this.props;
     return (
@@ -35,7 +41,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
           />
         </TableCell>
         <TableCell>
-          <Button onClick={() => appStore.deleteCharacter(character)}>Delete</Button>
+          <Button onClick={() => this.deleteCharacter(character)}>Delete</Button>
         </TableCell>
       </TableRow>
     );

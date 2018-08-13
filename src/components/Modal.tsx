@@ -1,40 +1,41 @@
 import * as React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
 
-type IModalProps = {
-  children: JSX.Element | string;
-  isModalOpen?: boolean;
-  onClose?: () => void;
+import Modal from '@material-ui/core/Modal';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import IconClose from '@material-ui/icons/Close';
+import Grid from '@material-ui/core/Grid';
+
+type IAppModalProps = {
+  ariaDescription?: string;
+  ariaLabelledBy?: string;
+  modalTitle: string;
+  open: boolean;
+  onClose: () => void;
 };
 
-@observer
-class CharacterForm extends React.Component<IModalProps, {}> {
-  @observable isModalOpen: boolean = true;
-
-  closeModal = () => {
-    if (this.props.onClose) {
-      this.props.onClose();
-    }
-    this.isModalOpen = false;
-  };
-
+export default class AppModal extends React.Component<IAppModalProps, {}> {
   render() {
-    if (this.props.isModalOpen) {
-      this.isModalOpen = this.props.isModalOpen;
-    }
+    const { ariaDescription = '', ariaLabelledBy = '', children, modalTitle, onClose, open } = this.props;
     return (
-      <Modal isOpen={this.isModalOpen} onExit={this.closeModal}>
-        <ModalHeader>Modal heading</ModalHeader>
-        <ModalBody />
-        {this.props.children}
-        <ModalFooter>
-          <Button onClick={this.closeModal}>Close</Button>
-        </ModalFooter>
+      <Modal aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescription} onClose={onClose} open={open}>
+        <Paper className="modal">
+          <Grid container justify="space-between" alignItems="center">
+            <Grid item>
+              <Typography variant="title" id="modal-title">
+                {modalTitle}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <IconButton onClick={onClose}>
+                <IconClose />
+              </IconButton>
+            </Grid>
+          </Grid>
+          {children}
+        </Paper>
       </Modal>
     );
   }
 }
-
-export default CharacterForm;

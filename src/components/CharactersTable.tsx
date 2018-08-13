@@ -2,14 +2,18 @@ import * as React from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Zoom from '@material-ui/core/Zoom';
 
 import CharacterTableRow from './CharacterTableRow';
 import CharacterAddForm from './CharacterAddForm';
+import AppModal from './Modal';
 
 import { appStore } from '../store';
 
@@ -17,9 +21,10 @@ import { appStore } from '../store';
 class CharactersTable extends React.Component {
   @observable
   showAddUserForm = false;
+
   render() {
     return (
-      <div>
+      <>
         <Table>
           <TableHead>
             <TableRow>
@@ -36,9 +41,17 @@ class CharactersTable extends React.Component {
             ))}
           </TableBody>
         </Table>
-
-        <CharacterAddForm />
-      </div>
+        <AppModal open={this.showAddUserForm} modalTitle="Add character" onClose={() => (this.showAddUserForm = false)}>
+          <CharacterAddForm />
+        </AppModal>
+        <div className="add-character-button">
+          <Zoom in unmountOnExit>
+            <Button variant="fab" color="primary" onClick={_ => (this.showAddUserForm = !this.showAddUserForm)}>
+              <AddIcon />
+            </Button>
+          </Zoom>
+        </div>
+      </>
     );
   }
 }
