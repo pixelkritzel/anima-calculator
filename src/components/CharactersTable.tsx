@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +11,7 @@ import CharacterTableRow from './CharacterTableRow';
 
 import { appStore } from '../store';
 
+@observer
 export default class CharactersTable extends React.Component {
   render() {
     return (
