@@ -25,30 +25,32 @@ export default class FightAddCharacters extends React.Component<IFightAddCharact
 
   render() {
     return (
-      <Table>
-        <TableHead>
-          <TableCell>#</TableCell>
-          <TableCell>Name</TableCell>
-          <TableCell>Group</TableCell>
-          <TableCell>Ini</TableCell>
-          <TableCell />
-        </TableHead>
-        <TableBody>
-          {appStore.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (
-            <TableRow>
-              <TableCell>{index}</TableCell>
-              <TableCell>{name}</TableCell>
-              <TableCell>{group}</TableCell>
-              <TableCell>{baseInitiative}</TableCell>
-              <TableCell>
-                <Button color="primary" onClick={() => this.addCharacterToFight(id)}>
-                  Add character to fight
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="fight-add-character">
+        <Table>
+          <TableHead>
+            <TableCell>#</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Group</TableCell>
+            <TableCell>Ini</TableCell>
+            <TableCell />
+          </TableHead>
+          <TableBody>
+            {appStore.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (
+              <TableRow>
+                <TableCell>{index}</TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{group}</TableCell>
+                <TableCell>{baseInitiative}</TableCell>
+                <TableCell>
+                  <Button color="primary" onClick={() => this.addCharacterToFight(id)}>
+                    Add character to fight
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     );
   }
 }

@@ -39,3 +39,8 @@
 *:focus {
   outline: 2px lightblue dashed;
 }
+
+.fight-add-character {
+  max-height: 75vh;
+  overflow: scroll;
+}
