@@ -9,14 +9,14 @@
 }
 
 .drawer .MuiDrawer-paper {
-  width: 18%;
+  width: 100px;
 }
 
 .content {
-  margin-left: 20%;
+  margin-left: 120px;
 }
 
-.add-character-button {
+.add-button {
   position: fixed;
   right: 30px;
   bottom: 30px;

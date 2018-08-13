@@ -5,7 +5,7 @@ import { characterInFightModel } from './charakterInFightModel';
 
 import { characterModel, ICharacterModel, characterInitialDataType } from './characterModel';
 import { fightModel } from './fightModel';
-import { autorun } from '../../node_modules/mobx';
+import { autorun } from 'mobx';
 
 const jsonCharacters = localStorage.getItem('animaCharacters');
 

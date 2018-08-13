@@ -4,8 +4,8 @@ import { observer } from 'mobx-react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
-import CharactersTable from './components/CharactersTable';
-import Fight from './components/Fight';
+import CharactersView from './components/CharactersView';
+import FightView from './components/FightView';
 import SideMenu from './components/SideMenu';
 
 import { appStore } from './store';
@@ -38,8 +38,8 @@ class App extends React.Component {
               <Tab label="Characters" value="charactersPane" />
               <Tab label="Fight" value="fightPane" />
             </Tabs>
-            {appStore.activeTab === 'charactersPane' && <CharactersTable />}
-            {appStore.activeTab === 'fightPane' && <Fight />}
+            {appStore.activeTab === 'charactersPane' && <CharactersView />}
+            {appStore.activeTab === 'fightPane' && <FightView />}
           </div>
         </>
       </JssProvider>

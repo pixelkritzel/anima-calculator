@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { appStore, applyImportedData } from 'src/store';
+import { appStore, applyImportedData } from '../store';
 
 // Don't ask why ... https://github.com/mui-org/material-ui/issues/12486#issuecomment-412351212
 function LabelForImportJSON({ children, ...otherProps }: { children: React.ReactNode }) {
