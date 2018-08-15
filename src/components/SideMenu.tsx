@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { appStore, applyImportedData } from '../store';
+import { applyImportedData, IStore } from '../store';
 
 // Don't ask why ... https://github.com/mui-org/material-ui/issues/12486#issuecomment-412351212
 function LabelForImportJSON({ children, ...otherProps }: { children: React.ReactNode }) {
@@ -16,10 +16,11 @@ function LabelForImportJSON({ children, ...otherProps }: { children: React.React
   );
 }
 
+@inject('store')
 @observer
-export default class SideMenu extends React.Component {
+export default class SideMenu extends React.Component<{ store?: IStore }, {}> {
   getURLEncodedJSON() {
-    const serializedAppStore = JSON.stringify(appStore);
+    const serializedAppStore = JSON.stringify(this.props.store);
     return 'data:text/plain;charset=utf-8,' + encodeURIComponent(serializedAppStore);
   }
 

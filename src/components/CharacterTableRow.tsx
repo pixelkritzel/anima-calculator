@@ -1,26 +1,28 @@
 import * as React from 'react';
 
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import EditableTextField from './EditableTextfield';
 
-import { appStore } from '#src/store';
+import { IStore } from '#src/store';
 import { ICharacterModel } from '#src/store/characterModel';
 
 type ICharactersTableRowProps = {
   character: ICharacterModel;
   index: number;
   key: string;
+  store?: IStore;
 };
 
+@inject('store')
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   deleteCharacter = (character: ICharacterModel) => {
     if (confirm(`Do you really want to delete ${character.name}?`)) {
-      appStore.deleteCharacter(character);
+      this.props.store!.deleteCharacter(character);
     }
   };
 

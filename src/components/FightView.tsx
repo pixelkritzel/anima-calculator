@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { autorun, observable } from 'mobx';
-import { observer } from 'mobx-react';
+import { observable } from 'mobx';
+import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
 
@@ -9,44 +9,46 @@ import AppModal from './AppModal';
 import FightAddCharacters from './FightAddCharacters';
 import FightTable from './FightTable';
 
-import { appStore } from '../store';
+import { IStore } from '#src/store';
 
-let nextCharacterByKeyboard = (event: KeyboardEvent) => {
-  if (event.key === 'n') {
-    appStore.fight.nextCharacter();
-  }
-};
-
-autorun(() => {
-  if (appStore.activeTab === 'fightPane' && appStore.fight.phase === 'turn') {
-    window.addEventListener('keypress', nextCharacterByKeyboard);
-  }
-  if (appStore.activeTab !== 'fightPane' || appStore.fight.phase === 'new') {
-    window.removeEventListener('keypress', nextCharacterByKeyboard);
-  }
-});
-
+@inject('store')
 @observer
-class Fight extends React.Component {
+class Fight extends React.Component<{ store?: IStore }, {}> {
   @observable
   showFightAddCharacters = false;
 
-  newFight() {
-    if (confirm('Are you sure you want to remove ALL characters from the current fight and start a new one?')) {
-      appStore.fight.newFight();
-    }
+  componentDidMount() {
+    window.addEventListener('keypress', this.onKeyPress);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('keypress', this.onKeyPress);
+  }
+
+  onKeyPress = (event: KeyboardEvent) => {
+    const store = this.props.store!;
+    if (event.key === 'n' && store.fight.phase === 'turn') {
+      store.fight.nextCharacter();
+    }
+  };
+
+  newFight = () => {
+    if (confirm('Are you sure you want to remove ALL characters from the current fight and start a new one?')) {
+      this.props.store!.fight.newFight();
+    }
+  };
+
   render() {
+    const store = this.props.store!;
     return (
       <>
-        <Button disabled={!appStore.fight.isFightAble} onClick={appStore.fight.newTurn}>
+        <Button disabled={!store.fight.isFightAble} onClick={store.fight.newTurn}>
           New Turn
         </Button>
-        <Button disabled={!appStore.fight.isFightStartable} onClick={appStore.fight.startTurn}>
+        <Button disabled={!store.fight.isFightStartable} onClick={store.fight.startTurn}>
           Start turn
         </Button>
-        <Button disabled={appStore.fight.phase === 'new'} onClick={appStore.fight.nextCharacter}>
+        <Button disabled={store.fight.phase === 'new'} onClick={store.fight.nextCharacter}>
           Next Character
         </Button>
         <Button onClick={this.newFight}>New Fight</Button>

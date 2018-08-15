@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -8,17 +8,20 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { appStore } from '#src/store';
+import { IStore } from '#src/store';
 
 type IFightAddCharactersProps = {
   close: () => void;
+  store?: IStore;
 };
 
+@inject('store')
 @observer
 export default class FightAddCharacters extends React.Component<IFightAddCharactersProps, {}> {
   addCharacterToFight = (characterId: string) => {
-    appStore.addCharacterToFight(characterId);
-    if (appStore.charactersNotInFight.length === 0) {
+    const { store } = this.props;
+    store!.addCharacterToFight(characterId);
+    if (store!.charactersNotInFight.length === 0) {
       this.props.close();
     }
   };
@@ -35,7 +38,7 @@ export default class FightAddCharacters extends React.Component<IFightAddCharact
             <TableCell />
           </TableHead>
           <TableBody>
-            {appStore.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (
+            {this.props.store!.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (
               <TableRow>
                 <TableCell>{index}</TableCell>
                 <TableCell>{name}</TableCell>

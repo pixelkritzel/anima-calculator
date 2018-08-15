@@ -23,8 +23,8 @@ const initialData = {
   }
 };
 
-const appStoreConstructor = types
-  .model('appStore', {
+const storeConstructor = types
+  .model('store', {
     activeTab: types.enumeration(['charactersPane', 'fightPane']),
     characters: types.array(characterModel),
     fight: fightModel,
@@ -64,18 +64,19 @@ const appStoreConstructor = types
     }
   }));
 
-export const appStore = appStoreConstructor.create(initialData);
+export type IStore = typeof storeConstructor.Type;
+export const store = storeConstructor.create(initialData);
 
 if (savedCharacters) {
   try {
-    applySnapshot(appStore, savedCharacters);
+    applySnapshot(store, savedCharacters);
   } catch (e) {
     localStorage.removeItem('animaCharacters');
   }
 }
 
-export const applyImportedData = (data: { foo: object }) => applySnapshot(appStore, data);
+export const applyImportedData = (data: { foo: object }) => applySnapshot(store, data);
 
-onPatch(appStore, () => {
-  localStorage.setItem('animaCharacters', JSON.stringify(appStore));
+onPatch(store, () => {
+  localStorage.setItem('animaCharacters', JSON.stringify(store));
 });

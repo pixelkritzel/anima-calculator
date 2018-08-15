@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observable } from 'mobx';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { isNull } from 'lodash';
 
 import Button from '@material-ui/core/Button';
@@ -11,8 +11,8 @@ import TextField from '@material-ui/core/TextField';
 
 import { FaCheck } from 'react-icons/lib/fa';
 
+import { IStore } from '#src/store';
 import { ICharakterInFightModel } from '#src/store/charakterInFightModel';
-import { appStore } from '#src/store';
 
 const PlayerIniInput = observer(({ character }: { character: ICharakterInFightModel }) => (
   <TextField
@@ -27,8 +27,10 @@ type ICharactersTableRowProps = {
   character: ICharakterInFightModel;
   index: number;
   key: string;
+  store?: IStore;
 };
 
+@inject('store')
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   @observable
@@ -64,9 +66,9 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   }
 
   render() {
-    const { character, index } = this.props;
+    const { character, index, store } = this.props;
     return (
-      <TableRow selected={appStore.fight.phase === 'turn' && appStore.fight.activeCharacter === index}>
+      <TableRow selected={store!.fight.phase === 'turn' && store!.fight.activeCharacter === index}>
         <TableCell>
           <Checkbox checked={character.acted} onClick={character.toogleActed} />
         </TableCell>
@@ -112,7 +114,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         </TableCell>
         <TableCell>
           {character.baseCharacter.group === 'nsc' && <Button onClick={character.rolld100}>Roll D100</Button>}
-          <Button color="secondary" onClick={() => appStore.fight.removeCharacterFromFight(character)}>
+          <Button color="secondary" onClick={() => store!.fight.removeCharacterFromFight(character)}>
             Remove Character from Fight
           </Button>
         </TableCell>

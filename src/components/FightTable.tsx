@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,12 +7,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { appStore } from '#src/store';
-
 import FightTableRow from '#src/components/FightTableRow';
 
+import { IStore } from '#src/store';
+
+@inject('store')
 @observer
-class Charakter extends React.Component {
+class Charakter extends React.Component<{ store?: IStore }, {}> {
   render() {
     return (
       <Table>
@@ -31,7 +32,7 @@ class Charakter extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-          {appStore.fight.fightingCharactersByPhase.map((character, index: number) => (
+          {this.props.store!.fight.fightingCharactersByPhase.map((character, index: number) => (
             <FightTableRow key={`charakter-${index}`} index={index} character={character} />
           ))}
         </TableBody>

@@ -14,7 +14,8 @@ type IEditableTextfieldProps = {
 
 @observer
 class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
-  @observable isEditable = false;
+  @observable
+  isEditable = false;
 
   inputRef: HTMLInputElement | null;
 

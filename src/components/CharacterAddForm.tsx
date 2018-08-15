@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observable } from 'mobx';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { appStore } from '#src/store';
+import { IStore } from '#src/store';
 
 const characterScaffold = {
   name: '',
@@ -18,8 +18,9 @@ const characterScaffold = {
   baseInitiative: 0
 };
 
+@inject('store')
 @observer
-class CharacterAddForm extends React.Component {
+class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
   @observable
   character = characterScaffold;
 
@@ -36,7 +37,7 @@ class CharacterAddForm extends React.Component {
     } else {
       this.nameErrorMessage = '';
     }
-    appStore.addCharacter(this.character);
+    this.props.store!.addCharacter(this.character);
     this.character = characterScaffold;
     this.message = 'Character added';
     setTimeout(() => (this.message = ''), 3000);
