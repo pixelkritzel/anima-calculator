@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { autorun, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,21 @@ import FightAddCharacters from './FightAddCharacters';
 import FightTable from './FightTable';
 
 import { appStore } from '../store';
+
+let nextCharacterByKeyboard = (event: KeyboardEvent) => {
+  if (event.key === 'n') {
+    appStore.fight.nextCharacter();
+  }
+};
+
+autorun(() => {
+  if (appStore.activeTab === 'fightPane' && appStore.fight.phase === 'turn') {
+    window.addEventListener('keypress', nextCharacterByKeyboard);
+  }
+  if (appStore.activeTab !== 'fightPane' || appStore.fight.phase === 'new') {
+    window.removeEventListener('keypress', nextCharacterByKeyboard);
+  }
+});
 
 @observer
 class Fight extends React.Component {

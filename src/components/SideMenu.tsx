@@ -28,10 +28,10 @@ export default class SideMenu extends React.Component {
     if (files) {
       const reader = new FileReader();
 
-      reader.onload = fileEvent => {
-        if (fileEvent.target) {
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
           try {
-            const json = JSON.parse(fileEvent.target.result);
+            const json = JSON.parse(reader.result);
             applyImportedData(json);
           } catch (e) {
             alert('This file was not valid. :-/');

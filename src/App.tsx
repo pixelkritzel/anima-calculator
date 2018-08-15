@@ -4,20 +4,18 @@ import { observer } from 'mobx-react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
-import CharactersView from './components/CharactersView';
-import FightView from './components/FightView';
-import SideMenu from './components/SideMenu';
-
-import { appStore } from './store';
-
-// declare var JssProvider: any; // tslint:disable-line
 // @ts-ignore
 import JssProvider from 'react-jss/lib/JssProvider'; // tslint:disable-line
 import { createGenerateClassName } from '@material-ui/core/styles';
 
+import CharactersView from '#src/components/CharactersView';
+import FightView from '#src/components/FightView';
+import SideMenu from '#src/components/SideMenu';
+
+import { appStore } from '#src/store';
+
 const generateClassName = createGenerateClassName({
-  dangerouslyUseGlobalCSS: true,
-  productionPrefix: 'c'
+  dangerouslyUseGlobalCSS: true
 });
 
 @observer

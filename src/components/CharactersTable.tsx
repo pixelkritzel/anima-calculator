@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import CharacterTableRow from './CharacterTableRow';
 
-import { appStore } from '../store';
+import { appStore } from '#src/store';
 
 @observer
 export default class CharactersTable extends React.Component {

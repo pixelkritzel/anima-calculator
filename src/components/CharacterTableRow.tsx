@@ -7,8 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import EditableTextField from './EditableTextfield';
 
-import { appStore } from '../store';
-import { ICharacterModel } from '../store/characterModel';
+import { appStore } from '#src/store';
+import { ICharacterModel } from '#src/store/characterModel';
 
 type ICharactersTableRowProps = {
   character: ICharacterModel;

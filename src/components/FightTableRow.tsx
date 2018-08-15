@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { isNull } from 'lodash';
 
@@ -10,9 +11,8 @@ import TextField from '@material-ui/core/TextField';
 
 import { FaCheck } from 'react-icons/lib/fa';
 
-import { ICharakterInFightModel } from '../store/charakterInFightModel';
-import { observable } from 'mobx';
-import { appStore } from '../store';
+import { ICharakterInFightModel } from '#src/store/charakterInFightModel';
+import { appStore } from '#src/store';
 
 const PlayerIniInput = observer(({ character }: { character: ICharakterInFightModel }) => (
   <TextField
@@ -31,7 +31,8 @@ type ICharactersTableRowProps = {
 
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
-  @observable showModifierForm = false;
+  @observable
+  showModifierForm = false;
 
   @observable
   modifier = {

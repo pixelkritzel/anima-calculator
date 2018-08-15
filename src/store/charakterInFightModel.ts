@@ -1,9 +1,9 @@
 import { getParent, types } from 'mobx-state-tree';
 import { isNull } from 'lodash';
-import rollD100 from '../utils/d100';
-import generateUUID from '../utils/generateUUID';
 
-import { characterModel } from './characterModel';
+import { characterModel } from '#src/store/characterModel';
+import rollD100 from '#src/utils/d100';
+import generateUUID from '#src/utils/generateUUID';
 
 type IModifierData = {
   id?: string;

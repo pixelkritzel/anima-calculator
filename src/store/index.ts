@@ -1,11 +1,9 @@
 import { applySnapshot, destroy, onPatch, types } from 'mobx-state-tree';
 import generateUUID from '../utils/generateUUID';
 
-import { characterInFightModel } from './charakterInFightModel';
-
-import { characterModel, ICharacterModel, characterInitialDataType } from './characterModel';
-import { fightModel } from './fightModel';
-import { autorun } from 'mobx';
+import { characterModel, ICharacterModel, characterInitialDataType } from '#src/store/characterModel';
+import { characterInFightModel } from '#src/store/charakterInFightModel';
+import { fightModel } from '#src/store/fightModel';
 
 const jsonCharacters = localStorage.getItem('animaCharacters');
 
@@ -76,23 +74,8 @@ if (savedCharacters) {
   }
 }
 
-export const applyImportedData = (data: object) => applySnapshot(appStore, data);
+export const applyImportedData = (data: { foo: object }) => applySnapshot(appStore, data);
 
 onPatch(appStore, () => {
   localStorage.setItem('animaCharacters', JSON.stringify(appStore));
-});
-
-let nextCharacterByKeyboard = (event: KeyboardEvent) => {
-  if (event.key === 'n') {
-    appStore.fight.nextCharacter();
-  }
-};
-
-autorun(() => {
-  if (appStore.fight.phase === 'turn') {
-    window.addEventListener('keypress', nextCharacterByKeyboard);
-  }
-  if (appStore.fight.phase === 'new') {
-    window.removeEventListener('keypress', nextCharacterByKeyboard);
-  }
 });

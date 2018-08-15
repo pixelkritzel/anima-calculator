@@ -6,9 +6,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { appStore } from '../store';
 
-import FightTableRow from './FightTableRow';
+import { appStore } from '#src/store';
+
+import FightTableRow from '#src/components/FightTableRow';
 
 @observer
 class Charakter extends React.Component {

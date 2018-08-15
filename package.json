@@ -30,6 +30,6 @@
     "react-dom": "^16.2.0",
     "react-icons": "^2.2.7",
     "react-scripts-ts": "2.14.0",
-    "typescript": "^2.7.2"
+    "typescript": "^3.0"
   }
 }

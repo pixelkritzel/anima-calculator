@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { appStore } from '../store';
+import { appStore } from '#src/store';
 
 const characterScaffold = {
   name: '',

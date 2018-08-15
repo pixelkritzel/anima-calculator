@@ -1,7 +1,7 @@
 import { types } from 'mobx-state-tree';
 import { isNull } from 'lodash';
 
-import { characterInFightModel, ICharakterInFightModel } from './charakterInFightModel';
+import { characterInFightModel, ICharakterInFightModel } from '#src/store/charakterInFightModel';
 
 export const fightModel = types
   .model('fight', {

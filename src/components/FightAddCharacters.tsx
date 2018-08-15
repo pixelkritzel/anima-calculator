@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { appStore } from '../store';
+import { appStore } from '#src/store';
 
 type IFightAddCharactersProps = {
   close: () => void;
