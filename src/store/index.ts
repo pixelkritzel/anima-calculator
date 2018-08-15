@@ -16,7 +16,7 @@ if (jsonCharacters) {
 }
 
 const initialData = {
-  activeTab: 'charactersPane',
+  activeTab: 'charactersView',
   characters: [],
   fight: {
     phase: 'new'
@@ -25,7 +25,7 @@ const initialData = {
 
 const storeConstructor = types
   .model('store', {
-    activeTab: types.enumeration(['charactersPane', 'fightPane']),
+    activeTab: types.enumeration(['charactersView', 'fightView']),
     characters: types.array(characterModel),
     fight: fightModel,
     idCounter: 0
@@ -59,7 +59,7 @@ const storeConstructor = types
       }
       destroy(character);
     },
-    setActiveTab(value: 'charactersPane' | 'fightPane') {
+    setActiveTab(value: 'charactersView' | 'fightView') {
       self.activeTab = value;
     }
   }));

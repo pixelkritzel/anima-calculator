@@ -21,8 +21,7 @@ export const characterModel = types
         })
       ),
       () => []
-    ),
-    d100: types.optional(types.number, () => 0)
+    )
   })
   .actions(self => ({
     setBaseInitiative(ini: number) {

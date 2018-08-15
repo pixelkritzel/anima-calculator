@@ -25,11 +25,11 @@ export default class App extends React.Component {
               textColor="primary"
               centered={true}
             >
-              <Tab label="Characters" value="charactersPane" />
-              <Tab label="Fight" value="fightPane" />
+              <Tab label="Characters" value="charactersView" />
+              <Tab label="Fight" value="fightView" />
             </Tabs>
-            {store.activeTab === 'charactersPane' && <CharactersView />}
-            {store.activeTab === 'fightPane' && <FightView />}
+            {store.activeTab === 'charactersView' && <CharactersView />}
+            {store.activeTab === 'fightView' && <FightView />}
           </div>
         </>
       </Provider>

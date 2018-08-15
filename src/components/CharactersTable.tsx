@@ -28,7 +28,7 @@ export default class CharactersTable extends React.Component<{ store?: IStore },
         </TableHead>
         <TableBody>
           {this.props.store!.characters.map((character, index: number) => (
-            <CharacterTableRow key={`charakter-${index}`} index={index} character={character} />
+            <CharacterTableRow key={`charakter-${character.id}`} index={index} character={character} />
           ))}
         </TableBody>
       </Table>

@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { FaPencil, FaCheck } from 'react-icons/lib/fa';
 
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import IconCheck from '@material-ui/icons/Check';
+import IconEdit from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
 
 type IEditableTextfieldProps = {
-  onSave?: (value: string) => void;
-  text: string;
+  onSave: (value: string) => void;
+  value: string;
   type?: string;
 };
 
@@ -23,6 +24,11 @@ class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
     this.isEditable = !this.isEditable;
   };
 
+  onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    this.saveChanges();
+  };
+
   saveChanges = () => {
     const { onSave } = this.props;
     if (onSave && this.inputRef) {
@@ -32,30 +38,28 @@ class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
   };
 
   displayText = () => {
-    const { text } = this.props;
+    const { value } = this.props;
     return (
       <span>
-        {text}{' '}
-        <Button variant="text" onClick={this.toggleIsEditable}>
-          <FaPencil />
-        </Button>
+        {value}{' '}
+        <IconButton onClick={this.toggleIsEditable}>
+          <IconEdit />
+        </IconButton>
       </span>
     );
   };
 
   displayInput = () => {
-    const { text, type } = this.props;
+    const { value, type } = this.props;
     const usedType = type || 'text';
     return (
-      <span>
-        <TextField type={usedType} defaultValue={text} inputRef={ref => (this.inputRef = ref)} />
-        <Button size="small" onClick={this.toggleIsEditable}>
-          &times;
-        </Button>
-        <Button size="small" onClick={this.saveChanges}>
-          <FaCheck />
-        </Button>
-      </span>
+      <form style={{ display: 'inline-block' }} onSubmit={this.onSubmit}>
+        <TextField autoFocus type={usedType} defaultValue={value} inputRef={ref => (this.inputRef = ref)} />
+        <IconButton onClick={this.toggleIsEditable}>&times;</IconButton>
+        <IconButton onClick={this.saveChanges}>
+          <IconCheck />
+        </IconButton>
+      </form>
     );
   };
 

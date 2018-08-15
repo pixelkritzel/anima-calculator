@@ -32,12 +32,12 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
       <TableRow>
         <TableCell>{index}</TableCell>
         <TableCell>
-          <EditableTextField text={character.name} onSave={character.setName} />
+          <EditableTextField value={character.name} onSave={character.setName} />
         </TableCell>
         <TableCell>{character.group} </TableCell>
         <TableCell>
           <EditableTextField
-            text={character.baseInitiative.toString()}
+            value={character.baseInitiative.toString()}
             type="number"
             onSave={value => character.setBaseInitiative(parseInt(value, 10))}
           />

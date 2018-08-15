@@ -5,11 +5,10 @@ import { isNull } from 'lodash';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconCheck from '@material-ui/icons/Check';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
-
-import { FaCheck } from 'react-icons/lib/fa';
 
 import { IStore } from '#src/store';
 import { ICharakterInFightModel } from '#src/store/charakterInFightModel';
@@ -42,9 +41,15 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
     reason: ''
   };
 
+  saveModifier = (event: React.FormEvent) => {
+    event.preventDefault();
+    this.props.character.addModifier(this.modifier);
+    this.showModifierForm = false;
+  };
+
   renderModifierForm() {
     return (
-      <form>
+      <form onSubmit={this.saveModifier}>
         <TextField
           label="Modfier value"
           type="number"
@@ -53,13 +58,8 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
 
         <TextField label="Modfier reason" type="text" onChange={event => (this.modifier.reason = event.target.value)} />
 
-        <Button
-          onClick={() => {
-            this.props.character.addModifier(this.modifier);
-            this.showModifierForm = false;
-          }}
-        >
-          <FaCheck /> Add modifier
+        <Button onClick={this.saveModifier}>
+          <IconCheck /> Add modifier
         </Button>
       </form>
     );
