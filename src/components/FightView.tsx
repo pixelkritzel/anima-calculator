@@ -42,10 +42,13 @@ class Fight extends React.Component<{ store?: IStore }, {}> {
     const store = this.props.store!;
     return (
       <>
-        <Button disabled={!store.fight.isFightAble} onClick={store.fight.newTurn}>
+        <Button disabled={!store.fight.isFightAble || store.fight.phase === 'new'} onClick={store.fight.newTurn}>
           New Turn
         </Button>
-        <Button disabled={!store.fight.isFightStartable} onClick={store.fight.startTurn}>
+        <Button
+          disabled={!store.fight.isFightStartable || store.fight.phase === 'turn'}
+          onClick={store.fight.startTurn}
+        >
           Start turn
         </Button>
         <Button disabled={store.fight.phase === 'new'} onClick={store.fight.nextCharacter}>
