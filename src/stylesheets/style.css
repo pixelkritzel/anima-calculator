@@ -44,3 +44,21 @@
   max-height: 75vh;
   overflow: scroll;
 }
+
+.MuiTableCell-root {
+  padding: 4px 8px 4px 8px !important;
+}
+
+.list-unstyled {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list-unstyled .MuiIconButton-root,
+.list-unstyled .MuiIconButton-label,
+.list-unstyled .MuiTouchRipple-root {
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: sub;
+}

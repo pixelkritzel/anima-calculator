@@ -46,9 +46,7 @@ const storeConstructor = types
       const baseCharacter = self.characters.find(char => char.id === id);
       if (baseCharacter) {
         const characterInFight = characterInFightModel.create({ baseCharacter });
-        if (characterInFight.baseCharacter.group === 'nsc') {
-          characterInFight.rolld100();
-        }
+        characterInFight.rolld100();
         self.fight.fightingCharacters.push(characterInFight);
       }
     },
