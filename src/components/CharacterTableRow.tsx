@@ -37,6 +37,13 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         <TableCell>{character.group} </TableCell>
         <TableCell>
           <EditableTextField
+            value={character.lifepoints.toString()}
+            type="number"
+            onSave={value => character.setLifePoints(parseInt(value, 10))}
+          />
+        </TableCell>
+        <TableCell>
+          <EditableTextField
             value={character.baseInitiative.toString()}
             type="number"
             onSave={value => character.setBaseInitiative(parseInt(value, 10))}

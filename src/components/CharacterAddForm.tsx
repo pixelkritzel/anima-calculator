@@ -15,6 +15,7 @@ import { IStore } from '#src/store';
 const characterScaffold = {
   name: '',
   group: 'player',
+  lifepoints: 0,
   baseInitiative: 0
 };
 
@@ -83,6 +84,17 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               <MenuItem value="player">Player</MenuItem>
               <MenuItem value="nsc">NSC</MenuItem>
             </Select>
+          </FormControl>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Lifepoints"
+              type="number"
+              value={this.character.lifepoints}
+              placeholder="0"
+              onChange={event => {
+                this.character.lifepoints = parseInt(event.target.value, 10);
+              }}
+            />
           </FormControl>
           <FormControl fullWidth margin="normal">
             <TextField

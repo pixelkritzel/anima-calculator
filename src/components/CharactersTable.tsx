@@ -22,6 +22,7 @@ export default class CharactersTable extends React.Component<{ store?: IStore },
             <TableCell>#</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Group</TableCell>
+            <TableCell>Lifepoints</TableCell>
             <TableCell>Base Initiative</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>

@@ -35,6 +35,7 @@ export default class SideMenu extends React.Component<{ store?: IStore }, {}> {
             const json = JSON.parse(reader.result);
             applyImportedData(json);
           } catch (e) {
+            console.log(e);
             alert('This file was not valid. :-/');
           }
         }

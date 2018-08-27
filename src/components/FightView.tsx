@@ -46,7 +46,7 @@ class Fight extends React.Component<{ store?: IStore }, {}> {
           New Turn
         </Button>
         <Button
-          disabled={store.fight.activeCharacter === store.fight.fightingCharacters.length - 1}
+          disabled={store.fight.activeCharacter === store.fight.fightingCharacters.length}
           onClick={store.fight.nextCharacter}
         >
           Next Character
