@@ -12,16 +12,7 @@ export const characterModel = types
     id: types.identifier(types.string),
     name: types.string,
     group: types.enumeration(['player', 'nsc']),
-    baseInitiative: types.number,
-    modifiers: types.optional(
-      types.array(
-        types.model({
-          value: types.number,
-          reason: types.optional(types.string, () => '')
-        })
-      ),
-      () => []
-    )
+    baseInitiative: types.number
   })
   .actions(self => ({
     setBaseInitiative(ini: number) {

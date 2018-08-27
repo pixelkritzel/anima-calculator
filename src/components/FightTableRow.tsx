@@ -93,7 +93,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
               Add modifier
             </Button>
             <ul className="list-unstyled">
-              {character.modifiers.map((mod, modIndex) => (
+              {character.inititiaveModifiers.map((mod, modIndex) => (
                 <li key={`charakter-${index}-modifier-${mod.id}`}>
                   {mod.value}
                   {mod.reason && ' - '}

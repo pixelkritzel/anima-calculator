@@ -4,18 +4,12 @@ import generateUUID from '../utils/generateUUID';
 import { characterModel, ICharacterModel, characterInitialDataType } from '#src/store/characterModel';
 import { characterInFightModel } from '#src/store/charakterInFightModel';
 import { fightModel } from '#src/store/fightModel';
+import updateJSON from '#src/store/updateJSON';
 
-const jsonCharacters = localStorage.getItem('animaCharacters');
-
-let savedCharacters;
-
-if (jsonCharacters) {
-  try {
-    savedCharacters = JSON.parse(jsonCharacters);
-  } catch (e) {} // tslint:disable-line
-}
+export const JSON_VERSION = 1;
 
 const initialData = {
+  version: JSON_VERSION,
   activeTab: 'charactersView',
   characters: [],
   fight: {
@@ -25,6 +19,7 @@ const initialData = {
 
 const storeConstructor = types
   .model('store', {
+    version: types.literal(JSON_VERSION),
     activeTab: types.enumeration(['charactersView', 'fightView']),
     characters: types.array(characterModel),
     fight: fightModel,
@@ -65,15 +60,32 @@ const storeConstructor = types
 export type IStore = typeof storeConstructor.Type;
 export const store = storeConstructor.create(initialData);
 
-if (savedCharacters) {
+// tslint:disable-next-line no-any
+export const applyImportedData = (data: any) => {
+  updateJSON(data);
+  applySnapshot(store, data);
+};
+
+const jsonFormLocalStorage = localStorage.getItem('animaCharacters');
+
+let savedData;
+
+if (jsonFormLocalStorage) {
   try {
-    applySnapshot(store, savedCharacters);
-  } catch (e) {
-    localStorage.removeItem('animaCharacters');
-  }
+    savedData = JSON.parse(jsonFormLocalStorage);
+    savedData.version = savedData.version || 0;
+  } catch (e) {} // tslint:disable-line
 }
 
-export const applyImportedData = (data: { foo: object }) => applySnapshot(store, data);
+console.log(savedData);
+
+if (savedData) {
+  try {
+    applyImportedData(savedData);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 onPatch(store, () => {
   localStorage.setItem('animaCharacters', JSON.stringify(store));

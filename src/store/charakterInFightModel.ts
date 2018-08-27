@@ -20,13 +20,13 @@ const ModifierModel = types.model({
 export const characterInFightModel = types
   .model('character', {
     baseCharacter: types.reference(characterModel),
-    modifiers: types.optional(types.array(ModifierModel), () => []),
+    inititiaveModifiers: types.optional(types.array(ModifierModel), () => []),
     d100: 0,
     acted: false
   })
   .views(self => ({
     get currentInitiative() {
-      const sumOfModifiers = self.modifiers.reduce((prev, mod) => prev + mod.value, 0);
+      const sumOfModifiers = self.inititiaveModifiers.reduce((prev, mod) => prev + mod.value, 0);
       return self.baseCharacter.baseInitiative + sumOfModifiers + self.d100;
     },
     get advantageAgainst() {
@@ -42,11 +42,11 @@ export const characterInFightModel = types
   .actions(self => ({
     addModifier(modifierData: IModifierData) {
       modifierData.id = generateUUID();
-      self.modifiers.push(ModifierModel.create(modifierData));
+      self.inititiaveModifiers.push(ModifierModel.create(modifierData));
     },
     removeModifier(id: string) {
-      const index = self.modifiers.findIndex(mod => mod.id === id);
-      self.modifiers.splice(index, 1);
+      const index = self.inititiaveModifiers.findIndex(mod => mod.id === id);
+      self.inititiaveModifiers.splice(index, 1);
     },
     rolld100() {
       self.d100 = rollD100();
