@@ -27,7 +27,7 @@ type ICharactersTableRowProps = {
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   @observable
-  showModifierForm = false;
+  showModifierModal = false;
 
   @observable
   modifier = {
@@ -38,16 +38,16 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   saveModifier = (event: React.FormEvent) => {
     event.preventDefault();
     this.props.character.addModifier(this.modifier);
-    this.showModifierForm = false;
+    this.showModifierModal = false;
   };
 
-  renderModifierForm() {
+  renderModifierModal() {
     const { character } = this.props;
     return (
       <AppModal
         modalTitle={`Add modifier for ${character.baseCharacter.name}`}
         open
-        onClose={() => (this.showModifierForm = false)}
+        onClose={() => (this.showModifierModal = false)}
       >
         <form onSubmit={this.saveModifier}>
           <FormControl fullWidth margin="normal">
@@ -78,50 +78,51 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   render() {
     const { character, index, store } = this.props;
     return (
-      <TableRow selected={store!.fight.activeCharacter === index}>
-        <TableCell>
-          <Checkbox checked={character.acted} onClick={character.toogleActed} />
-        </TableCell>
-        <TableCell>{index + 1}</TableCell>
-        <TableCell>{character.baseCharacter.name}</TableCell>
-        <TableCell>{character.baseCharacter.group} </TableCell>
-        <TableCell>{character.baseCharacter.baseInitiative}</TableCell>
-        <TableCell>
-          {this.showModifierForm ? (
-            this.renderModifierForm()
-          ) : (
-            <Button size="small" onClick={() => (this.showModifierForm = true)}>
+      <>
+        {this.showModifierModal && this.renderModifierModal()}
+        <TableRow selected={store!.fight.activeCharacter === index}>
+          <TableCell>
+            <Checkbox checked={character.acted} onClick={character.toogleActed} />
+          </TableCell>
+          <TableCell>{index + 1}</TableCell>
+          <TableCell>{character.baseCharacter.name}</TableCell>
+          <TableCell>{character.baseCharacter.group} </TableCell>
+          <TableCell>{character.baseCharacter.baseInitiative}</TableCell>
+          <TableCell>
+            <Button size="small" onClick={() => (this.showModifierModal = true)}>
               Add modifier
             </Button>
-          )}
-          <ul className="list-unstyled">
-            {character.modifiers.map((mod, modIndex) => (
-              <li key={`charakter-${index}-modifier-${mod.id}`}>
-                {mod.value}
-                {mod.reason && ' - '}
-                {mod.reason}
-                <IconButton onClick={() => character.removeModifier(mod.id)}>&times;</IconButton>
-              </li>
-            ))}
-          </ul>
-        </TableCell>
-        <TableCell>{character.d100}</TableCell>
-        <TableCell>{character.currentInitiative}</TableCell>
-        <TableCell>
-          <ul>
-            {character.advantageAgainst.map(opponent => (
-              <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>{opponent.baseCharacter.name}</li>
-            ))}
-          </ul>
-        </TableCell>
-        <TableCell>
-          <Button onClick={character.rolld100}>Roll D100</Button>
-          <br />
-          <Button color="secondary" onClick={() => store!.fight.removeCharacterFromFight(character)}>
-            Remove Character from Fight
-          </Button>
-        </TableCell>
-      </TableRow>
+            <ul className="list-unstyled">
+              {character.modifiers.map((mod, modIndex) => (
+                <li key={`charakter-${index}-modifier-${mod.id}`}>
+                  {mod.value}
+                  {mod.reason && ' - '}
+                  {mod.reason}
+                  <IconButton onClick={() => character.removeModifier(mod.id)}>&times;</IconButton>
+                </li>
+              ))}
+            </ul>
+          </TableCell>
+          <TableCell>{character.d100}</TableCell>
+          <TableCell>{character.currentInitiative}</TableCell>
+          <TableCell>
+            <ul>
+              {character.advantageAgainst.map(opponent => (
+                <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>
+                  {opponent.baseCharacter.name}
+                </li>
+              ))}
+            </ul>
+          </TableCell>
+          <TableCell>
+            <Button onClick={character.rolld100}>Roll D100</Button>
+            <br />
+            <Button color="secondary" onClick={() => store!.fight.removeCharacterFromFight(character)}>
+              Remove Character from Fight
+            </Button>
+          </TableCell>
+        </TableRow>
+      </>
     );
   }
 }
