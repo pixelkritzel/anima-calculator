@@ -32,7 +32,7 @@ class Charakter extends React.Component<{ store?: IStore }, {}> {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.props.store!.fight.fightingCharactersByPhase.map((character, index: number) => (
+          {this.props.store!.fight.fightingCharactersByInitiative.map((character, index: number) => (
             <FightTableRow key={`charakter-${index}`} index={index} character={character} />
           ))}
         </TableBody>

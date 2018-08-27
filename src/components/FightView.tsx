@@ -27,7 +27,7 @@ class Fight extends React.Component<{ store?: IStore }, {}> {
 
   onKeyPress = (event: KeyboardEvent) => {
     const store = this.props.store!;
-    if (event.key === 'n' && store.fight.phase === 'turn') {
+    if (event.key === 'n') {
       store.fight.nextCharacter();
     }
   };
@@ -42,16 +42,13 @@ class Fight extends React.Component<{ store?: IStore }, {}> {
     const store = this.props.store!;
     return (
       <>
-        <Button disabled={!store.fight.isFightAble || store.fight.phase === 'new'} onClick={store.fight.newTurn}>
+        <Button disabled={!store.fight.isFightAble} onClick={store.fight.newTurn}>
           New Turn
         </Button>
         <Button
-          disabled={!store.fight.isFightStartable || store.fight.phase === 'turn'}
-          onClick={store.fight.startTurn}
+          disabled={store.fight.activeCharacter === store.fight.fightingCharacters.length - 1}
+          onClick={store.fight.nextCharacter}
         >
-          Start turn
-        </Button>
-        <Button disabled={store.fight.phase === 'new'} onClick={store.fight.nextCharacter}>
           Next Character
         </Button>
         <Button onClick={this.newFight}>New Fight</Button>

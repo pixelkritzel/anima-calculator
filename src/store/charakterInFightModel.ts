@@ -20,7 +20,6 @@ const ModifierModel = types.model({
 export const characterInFightModel = types
   .model('character', {
     baseCharacter: types.reference(characterModel),
-    manualCurrentInitiative: types.maybe(types.number),
     modifiers: types.optional(types.array(ModifierModel), () => []),
     d100: 0,
     acted: false
@@ -28,9 +27,7 @@ export const characterInFightModel = types
   .views(self => ({
     get currentInitiative() {
       const sumOfModifiers = self.modifiers.reduce((prev, mod) => prev + mod.value, 0);
-      return self.baseCharacter.group === 'nsc'
-        ? self.baseCharacter.baseInitiative + sumOfModifiers + self.d100
-        : self.manualCurrentInitiative;
+      return self.baseCharacter.baseInitiative + sumOfModifiers + self.d100;
     },
     get advantageAgainst() {
       const allOpponents: ICharakterInFightModel[] = getParent(self);
@@ -49,16 +46,13 @@ export const characterInFightModel = types
     },
     removeModifier(id: string) {
       const index = self.modifiers.findIndex(mod => mod.id === id);
-      self.modifiers.splice(index - 1, 1);
+      self.modifiers.splice(index, 1);
     },
     rolld100() {
       self.d100 = rollD100();
     },
     toogleActed() {
       self.acted = !self.acted;
-    },
-    updateManualCurrentInitiative(newIni: number) {
-      self.manualCurrentInitiative = newIni;
     }
   }));
 
