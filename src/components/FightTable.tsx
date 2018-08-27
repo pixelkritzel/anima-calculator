@@ -23,10 +23,15 @@ class Charakter extends React.Component<{ store?: IStore }, {}> {
             <TableCell>#</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Group</TableCell>
-            <TableCell>Base Initiative</TableCell>
-            <TableCell>Modifiers</TableCell>
+            <TableCell>Lifepoints</TableCell>
+            <TableCell>Lifepoints Modifiers</TableCell>
+            <TableCell>Base Ini</TableCell>
+            <TableCell>Ini Modifiers</TableCell>
             <TableCell>D100</TableCell>
             <TableCell>Current Initiative</TableCell>
+            <TableCell>
+              Current Lifepoints <br />/ Critical hit
+            </TableCell>
             <TableCell>Advantage towards</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>

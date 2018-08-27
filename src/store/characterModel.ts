@@ -12,13 +12,16 @@ export const characterModel = types
     id: types.identifier(types.string),
     name: types.string,
     group: types.enumeration(['player', 'nsc']),
-    baseInitiative: types.number
+    baseInitiative: types.number,
+    lifepoints: types.number
   })
   .actions(self => ({
     setBaseInitiative(ini: number) {
       self.baseInitiative = ini;
     },
-
+    setLifePoints(lifepoints: number) {
+      self.lifepoints = lifepoints;
+    },
     setName(name: string) {
       self.name = name;
     }

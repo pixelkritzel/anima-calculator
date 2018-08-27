@@ -6,10 +6,10 @@ import { characterInFightModel } from '#src/store/charakterInFightModel';
 import { fightModel } from '#src/store/fightModel';
 import updateJSON from '#src/store/updateJSON';
 
-export const JSON_VERSION = 1;
+export const LAST_JSON_VERSION = 1;
 
 const initialData = {
-  version: JSON_VERSION,
+  version: LAST_JSON_VERSION,
   activeTab: 'charactersView',
   characters: [],
   fight: {
@@ -19,11 +19,10 @@ const initialData = {
 
 const storeConstructor = types
   .model('store', {
-    version: types.literal(JSON_VERSION),
+    version: types.literal(LAST_JSON_VERSION),
     activeTab: types.enumeration(['charactersView', 'fightView']),
     characters: types.array(characterModel),
-    fight: fightModel,
-    idCounter: 0
+    fight: fightModel
   })
   .views(self => ({
     get charactersNotInFight() {
@@ -62,7 +61,9 @@ export const store = storeConstructor.create(initialData);
 
 // tslint:disable-next-line no-any
 export const applyImportedData = (data: any) => {
+  data.version = data.version || 0;
   updateJSON(data);
+  console.log(JSON.stringify(data, undefined, 4));
   applySnapshot(store, data);
 };
 
@@ -73,7 +74,6 @@ let savedData;
 if (jsonFormLocalStorage) {
   try {
     savedData = JSON.parse(jsonFormLocalStorage);
-    savedData.version = savedData.version || 0;
   } catch (e) {} // tslint:disable-line
 }
 
