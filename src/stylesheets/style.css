@@ -62,3 +62,23 @@
   height: 1.5rem;
   vertical-align: sub;
 }
+
+.value-changed {
+  animation-name: value-changed;
+  animation-duration: 4s;
+}
+
+@keyframes value-changed {
+  from {
+    background-color: rgba(255, 151, 4, 0);
+  }
+  20% {
+    background-color: rgba(255, 151, 4, 0.58);
+  }
+  80% {
+    background-color: rgba(255, 151, 4, 0.58);
+  }
+  to {
+    background-color: rgba(255, 151, 4, 0);
+  }
+}

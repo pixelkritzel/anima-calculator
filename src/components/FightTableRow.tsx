@@ -1,11 +1,12 @@
 import * as React from 'react';
-
 import { inject, observer } from 'mobx-react';
+import cx from 'classnames';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import RootRef from '@material-ui/core/RootRef';
 
 import Modifiers from '#src/components/Modifiers';
 
@@ -19,13 +20,45 @@ type ICharactersTableRowProps = {
   store?: IStore;
 };
 
+type IHightlightOnUpdate = {
+  currentInitiative: number;
+  currentLifepoints: number;
+};
+
+function getHighlightOnUpdate(props: ICharactersTableRowProps): IHightlightOnUpdate {
+  const { currentInitiative, currentLifepoints } = props.character;
+  return {
+    currentInitiative,
+    currentLifepoints
+  };
+}
+
 @inject('store')
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
+  isIniChanged: boolean = false;
+  isLifepointsChanged: boolean = false;
+
+  hightlightOnUpdate: IHightlightOnUpdate;
+
+  ref: HTMLTableRowElement | null;
+
+  constructor(props: ICharactersTableRowProps) {
+    super(props);
+    this.hightlightOnUpdate = getHighlightOnUpdate(this.props);
+  }
+
+  componentWillReact() {
+    const newHighlightOnUpdate = getHighlightOnUpdate(this.props);
+    this.isIniChanged = this.hightlightOnUpdate.currentInitiative !== newHighlightOnUpdate.currentInitiative;
+    this.isLifepointsChanged = this.hightlightOnUpdate.currentLifepoints !== newHighlightOnUpdate.currentLifepoints;
+    this.hightlightOnUpdate = newHighlightOnUpdate;
+  }
+
   render() {
     const { character, index, store } = this.props;
     return (
-      <>
+      <RootRef rootRef={ref => (this.ref = ref)}>
         <TableRow selected={store!.fight.activeCharacter === index}>
           <TableCell>
             <Checkbox checked={character.acted} onClick={character.toogleActed} />
@@ -50,8 +83,8 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
             />
           </TableCell>
           <TableCell>{character.d100}</TableCell>
-          <TableCell>{character.currentInitiative}</TableCell>
-          <TableCell>
+          <TableCell className={cx({ 'value-changed': this.isIniChanged })}>{character.currentInitiative}</TableCell>
+          <TableCell className={cx({ 'value-changed': this.isLifepointsChanged })}>
             <strong>{character.currentLifepoints}</strong> <br /> / ({character.criticalHit})
           </TableCell>
           <TableCell>
@@ -71,7 +104,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
             </Button>
           </TableCell>
         </TableRow>
-      </>
+      </RootRef>
     );
   }
 }
