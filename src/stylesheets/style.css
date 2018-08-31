@@ -62,3 +62,37 @@
   height: 1.5rem;
   vertical-align: sub;
 }
+
+.value-changed {
+  animation-name: value-changed;
+  animation-duration: 1.5s;
+}
+
+@keyframes value-changed {
+  from {
+    background-color: rgba(255, 151, 4, 0);
+  }
+  20% {
+    background-color: rgba(255, 151, 4, 0.58);
+  }
+  70% {
+    background-color: rgba(255, 151, 4, 0.58);
+  }
+  to {
+    background-color: rgba(255, 151, 4, 0);
+  }
+}
+
+.fade-in-table-row {
+  animation-name: fade-in-table-row;
+  animation-duration: 0.6s;
+}
+
+@keyframes fade-in-table-row {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

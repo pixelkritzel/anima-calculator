@@ -31,11 +31,13 @@ export default class FightAddCharacters extends React.Component<IFightAddCharact
       <div className="fight-add-character">
         <Table>
           <TableHead>
-            <TableCell>#</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Group</TableCell>
-            <TableCell>Ini</TableCell>
-            <TableCell />
+            <TableRow>
+              <TableCell>#</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Group</TableCell>
+              <TableCell>Ini</TableCell>
+              <TableCell />
+            </TableRow>
           </TableHead>
           <TableBody>
             {this.props.store!.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (

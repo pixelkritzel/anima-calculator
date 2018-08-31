@@ -6,7 +6,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "deploy": "scp -r build/* pkritzel@grus.uberspace.de:/var/www/virtual/pkritzel/anima-ini.pixelkritzel.de"
   },
   "devDependencies": {
     "@material-ui/core": "^1.4.2",

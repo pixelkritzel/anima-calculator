@@ -7,14 +7,19 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import FightTableRow from '#src/components/FightTableRow';
+import FightTableRow, { FADE_IN_DURATION } from '#src/components/FightTableRow';
+import HighlightOnUpdate from '#src/components/HighlightOnUpdate';
 
 import { IStore } from '#src/store';
 
+type IFighTableProps = { store?: IStore };
+
 @inject('store')
 @observer
-class Charakter extends React.Component<{ store?: IStore }, {}> {
+class FightTable extends React.Component<IFighTableProps, {}> {
   render() {
+    const { fightingCharactersByInitiative } = this.props.store!.fight;
+    const charactersOrderHash = fightingCharactersByInitiative.map(character => character.baseCharacter.id).join('');
     return (
       <Table>
         <TableHead>
@@ -37,8 +42,13 @@ class Charakter extends React.Component<{ store?: IStore }, {}> {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.props.store!.fight.fightingCharactersByInitiative.map((character, index: number) => (
-            <FightTableRow key={`charakter-${index}`} index={index} character={character} />
+          {fightingCharactersByInitiative.map((character, index: number) => (
+            <HighlightOnUpdate
+              key={`character-${character.baseCharacter.id}`}
+              resetAfter={(index + 1) * FADE_IN_DURATION * 2}
+              tracking={charactersOrderHash}
+              render={isUpdated => <FightTableRow index={index} character={character} fadeIn={isUpdated} />}
+            />
           ))}
         </TableBody>
       </Table>
@@ -46,4 +56,4 @@ class Charakter extends React.Component<{ store?: IStore }, {}> {
   }
 }
 
-export default Charakter;
+export default FightTable;
