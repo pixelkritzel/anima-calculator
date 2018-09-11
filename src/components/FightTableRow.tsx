@@ -20,7 +20,7 @@ type ICharactersTableRowProps = {
   store?: IStore;
 };
 
-export const FADE_IN_DURATION = 600;
+export const FADE_IN_DURATION = 100;
 
 @inject('store')
 @observer
@@ -54,7 +54,33 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         </TableCell>
         <TableCell>{index + 1}</TableCell>
         <TableCell>{character.baseCharacter.name}</TableCell>
-        <TableCell>{character.baseCharacter.group} </TableCell>
+        <TableCell>
+          {character.baseCharacter.powerPointsAccumulation !== 0 && (
+            <>
+              {character.accumulatedPowerPoints}
+              <Button size="small" variant="text" onClick={() => character.resetAccumulated()}>
+                &times;
+              </Button>
+              <br />
+              <Button
+                size="small"
+                variant="text"
+                disabled={character.hasAccumulated}
+                onClick={() => character.accumulatePowerPoints()}
+              >
+                +1
+              </Button>
+              <Button
+                size="small"
+                variant="text"
+                disabled={character.hasAccumulated}
+                onClick={() => character.accumulatePowerPoints(true)}
+              >
+                +½
+              </Button>
+            </>
+          )}
+        </TableCell>
         <TableCell>{character.baseCharacter.lifepoints}</TableCell>
         <TableCell>
           <Modifiers

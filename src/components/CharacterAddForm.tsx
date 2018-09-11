@@ -13,10 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import { IStore } from '#src/store';
 
 const characterScaffold = {
-  name: '',
+  baseInitiative: 0,
   group: 'player',
   lifepoints: 0,
-  baseInitiative: 0
+  name: '',
+  powerPoints: 0,
+  powerPointsAccumulation: 0
 };
 
 @inject('store')
@@ -104,6 +106,28 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               placeholder="0"
               onChange={event => {
                 this.character.baseInitiative = parseInt(event.target.value, 10);
+              }}
+            />
+          </FormControl>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Power points"
+              type="number"
+              value={this.character.powerPoints}
+              placeholder="0"
+              onChange={event => {
+                this.character.powerPoints = parseInt(event.target.value, 10);
+              }}
+            />
+          </FormControl>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Power points accumulation"
+              type="number"
+              value={this.character.powerPointsAccumulation}
+              placeholder="0"
+              onChange={event => {
+                this.character.powerPointsAccumulation = parseInt(event.target.value, 10);
               }}
             />
           </FormControl>

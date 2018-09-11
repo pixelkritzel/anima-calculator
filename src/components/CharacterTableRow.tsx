@@ -50,6 +50,20 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
           />
         </TableCell>
         <TableCell>
+          <EditableTextField
+            value={character.powerPoints.toString()}
+            type="number"
+            onSave={value => character.setPowerPoints(parseInt(value, 10))}
+          />
+        </TableCell>
+        <TableCell>
+          <EditableTextField
+            value={character.powerPointsAccumulation.toString()}
+            type="number"
+            onSave={value => character.setPowerPointsAccumulation(parseInt(value, 10))}
+          />
+        </TableCell>
+        <TableCell>
           <Button onClick={() => this.deleteCharacter(character)}>Delete</Button>
         </TableCell>
       </TableRow>

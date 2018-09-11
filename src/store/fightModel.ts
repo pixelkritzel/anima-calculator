@@ -39,6 +39,7 @@ export const fightModel = types
     newTurn() {
       self.fightingCharacters.forEach(character => {
         character.acted = false;
+        character.hasAccumulated = false;
         character.rolld100();
         updateModifiersForNextTurn(character.inititiaveModifiers);
         updateModifiersForNextTurn(character.lifepointsModifiers);

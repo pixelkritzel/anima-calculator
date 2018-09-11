@@ -9,8 +9,10 @@ import { ModifierModel, IModifierData, createModifier } from '#src/store/modifie
 export const characterInFightModel = types
   .model('characterInFight', {
     baseCharacter: types.reference(characterModel),
-    inititiaveModifiers: types.optional(types.array(ModifierModel), () => []),
-    lifepointsModifiers: types.optional(types.array(ModifierModel), () => []),
+    inititiaveModifiers: types.optional(types.array(ModifierModel), []),
+    lifepointsModifiers: types.optional(types.array(ModifierModel), []),
+    accumulatedPowerPoints: types.optional(types.number, 0),
+    hasAccumulated: false,
     d100: 0,
     acted: false
   })
@@ -39,6 +41,12 @@ export const characterInFightModel = types
     }
   }))
   .actions(self => ({
+    accumulatePowerPoints(half?: boolean) {
+      self.accumulatedPowerPoints += half
+        ? Math.round(self.baseCharacter.powerPointsAccumulation / 2)
+        : self.baseCharacter.powerPointsAccumulation;
+      self.hasAccumulated = true;
+    },
     addIniModifier(modifierData: IModifierData) {
       self.inititiaveModifiers.push(createModifier(modifierData));
     },
@@ -52,6 +60,9 @@ export const characterInFightModel = types
     removeLifepointsModifier(id: string) {
       const index = self.lifepointsModifiers.findIndex(mod => mod.id === id);
       self.lifepointsModifiers.splice(index, 1);
+    },
+    resetAccumulated() {
+      self.accumulatedPowerPoints = 0;
     },
     rolld100() {
       self.d100 = rollD100();

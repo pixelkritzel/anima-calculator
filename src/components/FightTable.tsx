@@ -27,7 +27,11 @@ class FightTable extends React.Component<IFighTableProps, {}> {
             <TableCell>Acted</TableCell>
             <TableCell>#</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Group</TableCell>
+            <TableCell>
+              Accumulated
+              <br />
+              Power points
+            </TableCell>
             <TableCell>Lifepoints</TableCell>
             <TableCell>Lifepoints Modifiers</TableCell>
             <TableCell>Base Ini</TableCell>
