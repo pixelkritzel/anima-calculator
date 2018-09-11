@@ -1,7 +1,17 @@
-import { types } from 'mobx-state-tree';
+import { destroy, types } from 'mobx-state-tree';
 import { isNull } from 'lodash';
 
 import { characterInFightModel, ICharakterInFightModel } from '#src/store/charakterInFightModel';
+import { IModifierModel } from '#src/store/modifierModel';
+
+function updateModifiersForNextTurn(modifiers: IModifierModel[]) {
+  modifiers.forEach(modifier => {
+    modifier.value += modifier.changePerTurn;
+    if (modifier.changePerTurn && modifier.value >= 0) {
+      destroy(modifier);
+    }
+  });
+}
 
 export const fightModel = types
   .model('fight', {
@@ -30,6 +40,8 @@ export const fightModel = types
       self.fightingCharacters.forEach(character => {
         character.acted = false;
         character.rolld100();
+        updateModifiersForNextTurn(character.inititiaveModifiers);
+        updateModifiersForNextTurn(character.lifepointsModifiers);
       });
       self.activeCharacter = 0;
     },

@@ -4,13 +4,14 @@ import { observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import IconCheck from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
 
 import AppModal from '#src/components/AppModal';
 
-import { IModifierData, IModifierModel } from '#src/store/charakterInFightModel';
+import { IModifierData, IModifierModel } from '#src/store/modifierModel';
 
 type IModifiersProps = {
   modifiers: IModifierModel[];
@@ -25,8 +26,9 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
 
   @observable
   modifier = {
-    value: 0,
-    reason: ''
+    changePerTurn: 0,
+    reason: '',
+    value: 0
   };
 
   saveModifier = (event: React.FormEvent) => {
@@ -55,6 +57,13 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
             />
           </FormControl>
           <FormControl fullWidth margin="normal">
+            <TextField
+              label="Change per turn"
+              type="number"
+              onChange={event => (this.modifier.changePerTurn = parseInt(event.target.value, 10))}
+            />
+          </FormControl>
+          <FormControl fullWidth margin="normal">
             <Button onClick={this.saveModifier}>
               <IconCheck /> Add modifier
             </Button>
@@ -72,10 +81,22 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
         <ul className="list-unstyled">
           {modifiers.map((mod, index) => (
             <li key={`charakter-${index}-modifier-${mod.id}`}>
-              {mod.value}
-              {mod.reason && ' - '}
-              {mod.reason}
-              <IconButton onClick={() => removeModifier(mod.id)}>&times;</IconButton>
+              <Grid container>
+                <Grid item>
+                  <IconButton onClick={() => removeModifier(mod.id)}>&times;</IconButton>
+                </Grid>
+                <Grid item>
+                  {mod.value}
+                  {mod.reason && ' - '}
+                  {mod.reason}
+                  {mod.changePerTurn !== 0 && (
+                    <>
+                      <br />
+                      {`change: ${mod.changePerTurn} / turn`}
+                    </>
+                  )}
+                </Grid>
+              </Grid>
             </li>
           ))}
         </ul>
