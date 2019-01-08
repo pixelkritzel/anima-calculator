@@ -1,17 +1,19 @@
-import { getParent, types } from 'mobx-state-tree';
+import { getParent, types, Instance } from 'mobx-state-tree';
 import { isNull } from 'lodash';
 
 import { characterModel } from '#src/store/characterModel';
 import rollD100 from '#src/utils/d100';
 
-import { ModifierModel, IModifierData, createModifier } from '#src/store/modifierModel';
+import { ModifierModel, IModifierModel, IModifierData } from '#src/store/modifierModel';
+import generateUUID from '#src/utils/generateUUID';
 
 export const characterInFightModel = types
   .model('characterInFight', {
+    id: types.optional(types.identifier, generateUUID),
     baseCharacter: types.reference(characterModel),
-    inititiaveModifiers: types.optional(types.array(ModifierModel), []),
-    lifepointsModifiers: types.optional(types.array(ModifierModel), []),
-    accumulatedPowerPoints: types.optional(types.number, 0),
+    inititiaveModifiers: types.array(types.reference(ModifierModel)),
+    lifepointsModifiers: types.array(types.reference(ModifierModel)),
+    accumulatedPowerPoints: 0,
     hasAccumulated: false,
     d100: 0,
     acted: false
@@ -47,15 +49,15 @@ export const characterInFightModel = types
         : self.baseCharacter.powerPointsAccumulation;
       self.hasAccumulated = true;
     },
-    addIniModifier(modifierData: IModifierData) {
-      self.inititiaveModifiers.push(createModifier(modifierData));
+    addIniModifier(modifier: IModifierModel) {
+      self.inititiaveModifiers.push(modifier);
     },
     removeIniModifier(id: string) {
       const index = self.inititiaveModifiers.findIndex(mod => mod.id === id);
       self.inititiaveModifiers.splice(index, 1);
     },
     addLifepointsModifier(modifierData: IModifierData) {
-      self.lifepointsModifiers.push(createModifier(modifierData));
+      self.lifepointsModifiers.push(ModifierModel.create(modifierData));
     },
     removeLifepointsModifier(id: string) {
       const index = self.lifepointsModifiers.findIndex(mod => mod.id === id);
@@ -72,4 +74,4 @@ export const characterInFightModel = types
     }
   }));
 
-export type ICharakterInFightModel = typeof characterInFightModel.Type;
+export type ICharakterInFightModel = Instance<typeof characterInFightModel>;

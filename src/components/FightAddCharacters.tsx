@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import { IStore } from '#src/store';
+import { ICharacterModel } from '#src/store/characterModel';
 
 type IFightAddCharactersProps = {
   close: () => void;
@@ -18,7 +19,7 @@ type IFightAddCharactersProps = {
 @inject('store')
 @observer
 export default class FightAddCharacters extends React.Component<IFightAddCharactersProps, {}> {
-  addCharacterToFight = (characterId: string) => {
+  addCharacterToFight = (characterId: ICharacterModel['id']) => {
     const { store } = this.props;
     store!.addCharacterToFight(characterId);
     if (store!.charactersNotInFight.length === 0) {
@@ -41,7 +42,7 @@ export default class FightAddCharacters extends React.Component<IFightAddCharact
           </TableHead>
           <TableBody>
             {this.props.store!.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (
-              <TableRow>
+              <TableRow key={index}>
                 <TableCell>{index}</TableCell>
                 <TableCell>{name}</TableCell>
                 <TableCell>{group}</TableCell>

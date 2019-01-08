@@ -1,28 +1,36 @@
-import { applySnapshot, destroy, onPatch, types } from 'mobx-state-tree';
-import generateUUID from '../utils/generateUUID';
+import { applySnapshot, destroy, onPatch, types, SnapshotIn } from 'mobx-state-tree';
 
-import { characterModel, ICharacterModel, characterInitialDataType } from '#src/store/characterModel';
+import { characterModel, ICharacterModel, ICharacterModelData } from '#src/store/characterModel';
 import { characterInFightModel } from '#src/store/charakterInFightModel';
 import { fightModel } from '#src/store/fightModel';
 import updateJSON from '#src/store/updateJSON';
+import { ModifierModel, IModifierModel } from './modifierModel';
 
-export const LAST_JSON_VERSION = 1;
+export const LAST_JSON_VERSION = 2;
 
 const initialData = {
-  version: LAST_JSON_VERSION,
   activeTab: 'charactersView',
   characters: [],
   fight: {
-    phase: 'new'
-  }
-};
+    phase: 'new',
+    fightingCharacters: []
+  },
+  modifiers: [
+    {
+      id: 'modifier-unarmed',
+      value: 20,
+      reason: 'Unarmed'
+    }
+  ]
+} as IStoreData;
 
 const storeConstructor = types
   .model('store', {
-    version: types.literal(LAST_JSON_VERSION),
+    version: LAST_JSON_VERSION,
     activeTab: types.enumeration(['charactersView', 'fightView']),
     characters: types.array(characterModel),
-    fight: fightModel
+    fight: fightModel,
+    modifiers: types.array(ModifierModel)
   })
   .views(self => ({
     get charactersNotInFight() {
@@ -32,17 +40,16 @@ const storeConstructor = types
     }
   }))
   .actions(self => ({
-    addCharacter(characterData: characterInitialDataType) {
-      characterData.id = generateUUID();
+    addCharacter(characterData: ICharacterModelData) {
       self.characters.push(characterModel.create(characterData));
     },
-    addCharacterToFight(id: string) {
-      const baseCharacter = self.characters.find(char => char.id === id);
-      if (baseCharacter) {
-        const characterInFight = characterInFightModel.create({ baseCharacter });
-        characterInFight.rolld100();
-        self.fight.fightingCharacters.push(characterInFight);
-      }
+    addCharacterToFight(characterId: ICharacterModel['id']) {
+      const characterInFight = characterInFightModel.create({
+        baseCharacter: characterId,
+        inititiaveModifiers: ['modifier-unarmed']
+      });
+      characterInFight.rolld100();
+      self.fight.fightingCharacters.push(characterInFight);
     },
     deleteCharacter(character: ICharacterModel) {
       const characterInFight = self.fight.fightingCharacters.find(fightChar => fightChar.baseCharacter === character);
@@ -51,12 +58,16 @@ const storeConstructor = types
       }
       destroy(character);
     },
+    saveModifier(modifier: IModifierModel) {
+      self.modifiers.push(modifier);
+    },
     setActiveTab(value: 'charactersView' | 'fightView') {
       self.activeTab = value;
     }
   }));
 
 export type IStore = typeof storeConstructor.Type;
+export type IStoreData = SnapshotIn<typeof storeConstructor>;
 export const store = storeConstructor.create(initialData);
 
 // tslint:disable-next-line no-any

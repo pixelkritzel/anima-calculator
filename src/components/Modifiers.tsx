@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { observable } from 'mobx';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import IconCheck from '@material-ui/icons/Check';
@@ -11,18 +13,27 @@ import TextField from '@material-ui/core/TextField';
 
 import AppModal from '#src/components/AppModal';
 
-import { IModifierData, IModifierModel } from '#src/store/modifierModel';
+import { IModifierData, IModifierModel, ModifierModel } from '#src/store/modifierModel';
+import { IStore } from '#src/store';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 type IModifiersProps = {
   modifiers: IModifierModel[];
   addModifier: (modifierData: IModifierData) => void;
   removeModifier: (is: string) => void;
+  store?: IStore;
 };
 
+@inject('store')
 @observer
 export default class Modifiers extends React.Component<IModifiersProps, {}> {
   @observable
   showModifierModal = false;
+
+  @observable
+  isSaveModifier = true;
 
   @observable
   modifier = {
@@ -31,16 +42,55 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
     value: 0
   };
 
-  saveModifier = (event: React.FormEvent) => {
+  addModifier = (event: React.FormEvent) => {
     event.preventDefault();
-    this.props.addModifier(this.modifier);
+    const { store } = this.props;
+    const modifier = ModifierModel.create({ ...this.modifier });
+    if (this.isSaveModifier) {
+      store!.saveModifier(modifier);
+    }
+    this.props.addModifier(modifier);
     this.showModifierModal = false;
   };
 
+  selectModifier = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value: id } = event.target;
+    if (!id) {
+      return;
+    }
+    const { addModifier, store } = this.props;
+    const { modifiers } = store!;
+    const selectedModifier = modifiers.find(mod => mod.id === id);
+    addModifier(selectedModifier!);
+    this.showModifierModal = false;
+  };
+
+  toggleSaveModifier = () => (this.isSaveModifier = !this.isSaveModifier);
+
   renderModifierModal() {
+    const { modifiers } = this.props.store!;
     return (
       <AppModal modalTitle={`Add modifier`} open onClose={() => (this.showModifierModal = false)}>
-        <form onSubmit={this.saveModifier}>
+        <FormControl fullWidth>
+          <InputLabel htmlFor="preexisting-modifier">Preexisting modifiers</InputLabel>
+          <Select
+            onChange={this.selectModifier}
+            inputProps={{
+              name: 'preexisting-modifier',
+              id: 'preexisting-modifier'
+            }}
+          >
+            <MenuItem value="" key="none">
+              <em>None</em>
+            </MenuItem>
+            {modifiers.map(mod => (
+              <MenuItem key={mod.id} value={mod.id}>
+                {mod.reason + ': ' + mod.value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <form onSubmit={this.addModifier}>
           <FormControl fullWidth margin="normal">
             <TextField
               autoFocus
@@ -63,8 +113,13 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
               onChange={event => (this.modifier.changePerTurn = parseInt(event.target.value, 10))}
             />
           </FormControl>
-          <FormControl fullWidth margin="normal">
-            <Button onClick={this.saveModifier}>
+          <FormControlLabel
+            control={<Checkbox checked={this.isSaveModifier} onChange={this.toggleSaveModifier} value="saveModifier" />}
+            label="Save Modifier"
+          />
+
+          <FormControl margin="normal">
+            <Button onClick={this.addModifier}>
               <IconCheck /> Add modifier
             </Button>
           </FormControl>

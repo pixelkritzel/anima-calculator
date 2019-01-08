@@ -1,18 +1,9 @@
-import { types } from 'mobx-state-tree';
-
-export type characterInitialDataType = {
-  id?: string;
-  baseInitiative: number;
-  group: string;
-  lifepoints: number;
-  name: string;
-  powerPoints?: number;
-  powerPointsAccumulation?: number;
-};
+import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import generateUUID from '#src/utils/generateUUID';
 
 export const characterModel = types
   .model('character', {
-    id: types.identifier(types.string),
+    id: types.optional(types.identifier, generateUUID),
     baseInitiative: types.number,
     group: types.enumeration(['player', 'nsc']),
     lifepoints: types.number,
@@ -38,4 +29,5 @@ export const characterModel = types
     }
   }));
 
-export type ICharacterModel = typeof characterModel.Type;
+export type ICharacterModel = Instance<typeof characterModel>;
+export type ICharacterModelData = SnapshotIn<typeof characterModel>;

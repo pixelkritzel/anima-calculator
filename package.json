@@ -16,16 +16,24 @@
     "@types/jest": "^22.2.0",
     "@types/lodash": "^4.14.115",
     "@types/node": "^9.4.7",
-    "@types/react": "^16.0.40",
-    "@types/react-dom": "^16.0.4",
     "classnames": "^2.2.5",
     "lodash": "^4.17.10",
-    "mobx": "^4.1.0",
-    "mobx-react": "^5.0.0",
-    "mobx-state-tree": "^2.0.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts-ts": "2.14.0",
-    "typescript": "^3.0"
-  }
+    "mobx": "^5.0.0",
+    "mobx-react": "^5.2.8",
+    "mobx-state-tree": "^3.10.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts-ts": "^4.0",
+    "typescript": "^3.2"
+  },
+  "dependencies": {
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

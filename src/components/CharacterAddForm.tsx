@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { IStore } from '#src/store';
+import { ICharacterModelData } from '#src/store/characterModel';
 
 const characterScaffold = {
   baseInitiative: 0,
@@ -19,7 +20,7 @@ const characterScaffold = {
   name: '',
   powerPoints: 0,
   powerPointsAccumulation: 0
-};
+} as ICharacterModelData;
 
 @inject('store')
 @observer
@@ -40,7 +41,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
     } else {
       this.nameErrorMessage = '';
     }
-    this.props.store!.addCharacter(this.character);
+    this.props.store!.addCharacter({ ...this.character });
     this.character = characterScaffold;
     this.message = 'Character added';
     setTimeout(() => (this.message = ''), 3000);
@@ -70,6 +71,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               placeholder="Character name"
               onChange={this.onNameChange}
               required
+              autoFocus
             />
           </FormControl>
           <FormControl fullWidth margin="normal">
@@ -77,7 +79,8 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
             <Select
               value={this.character.group}
               onChange={event => {
-                this.character.group = event.target.value;
+                const value = event.target.value as ICharacterModelData['group'];
+                this.character.group = value;
               }}
               inputProps={{
                 id: 'select-character-group'

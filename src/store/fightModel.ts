@@ -15,7 +15,7 @@ function updateModifiersForNextTurn(modifiers: IModifierModel[]) {
 
 export const fightModel = types
   .model('fight', {
-    fightingCharacters: types.optional(types.array(characterInFightModel), []),
+    fightingCharacters: types.array(characterInFightModel),
     activeCharacter: 0
   })
   .views(self => ({

@@ -15,6 +15,19 @@ const jsonConverters = {
     });
     delete json.idCounter;
     json.version! = 1;
+  },
+  2: function(json: any) {
+    json.modifiers = [
+      {
+        id: 'modifier-unarmed',
+        value: 20,
+        reason: 'Unarmed'
+      }
+    ];
+    json.fight.fightingCharacters.forEach(
+      (c: { inititiaveModifiers: []; lifepointsModifiers: [] }) => (c.inititiaveModifiers = c.lifepointsModifiers = [])
+    );
+    json.version = 2;
   }
 };
 
