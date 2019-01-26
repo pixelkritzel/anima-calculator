@@ -3,9 +3,7 @@ import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import IconCheck from '@material-ui/icons/Check';
@@ -46,9 +44,7 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
     event.preventDefault();
     const { store } = this.props;
     const modifier = ModifierModel.create({ ...this.modifier });
-    if (this.isSaveModifier) {
-      store!.saveModifier(modifier);
-    }
+    store!.saveModifier(modifier);
     this.props.addModifier(modifier);
     this.showModifierModal = false;
   };
@@ -113,10 +109,6 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
               onChange={event => (this.modifier.changePerTurn = parseInt(event.target.value, 10))}
             />
           </FormControl>
-          <FormControlLabel
-            control={<Checkbox checked={this.isSaveModifier} onChange={this.toggleSaveModifier} value="saveModifier" />}
-            label="Save Modifier"
-          />
 
           <FormControl margin="normal">
             <Button onClick={this.addModifier}>
