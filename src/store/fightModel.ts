@@ -6,7 +6,7 @@ import { IModifierModel } from '#src/store/modifierModel';
 
 function updateModifiersForNextTurn(modifiers: IModifierModel[]) {
   modifiers.forEach(modifier => {
-    modifier.value += modifier.changePerTurn;
+    modifier.setValue(modifier.value + modifier.value);
     if (modifier.changePerTurn && modifier.value >= 0) {
       destroy(modifier);
     }
@@ -16,7 +16,7 @@ function updateModifiersForNextTurn(modifiers: IModifierModel[]) {
 export const fightModel = types
   .model('fight', {
     fightingCharacters: types.array(characterInFightModel),
-    activeCharacter: 0
+    activeCharacter: 0,
   })
   .views(self => ({
     get isFightAble() {
@@ -30,7 +30,7 @@ export const fightModel = types
     },
     get fightingCharactersByInitiative() {
       return self.fightingCharacters.sort((a, b) => b.currentInitiative! - a.currentInitiative!);
-    }
+    },
   }))
   .actions(self => ({
     newFight() {
@@ -55,5 +55,5 @@ export const fightModel = types
     removeCharacterFromFight(characterToBeRemoved: ICharakterInFightModel) {
       const indexOfCharacter = self.fightingCharacters.indexOf(characterToBeRemoved);
       self.fightingCharacters.splice(indexOfCharacter, 1);
-    }
+    },
   }));

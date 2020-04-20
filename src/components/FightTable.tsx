@@ -19,7 +19,9 @@ type IFighTableProps = { store?: IStore };
 class FightTable extends React.Component<IFighTableProps, {}> {
   render() {
     const { fightingCharactersByInitiative } = this.props.store!.fight;
-    const charactersOrderHash = fightingCharactersByInitiative.map(character => character.baseCharacter.id).join('');
+    const charactersOrderHash = fightingCharactersByInitiative
+      .map(character => character.baseCharacter.id)
+      .join('');
     return (
       <Table>
         <TableHead>
@@ -51,7 +53,9 @@ class FightTable extends React.Component<IFighTableProps, {}> {
               key={`character-${character.baseCharacter.id}`}
               resetAfter={(index + 1) * FADE_IN_DURATION * 2}
               tracking={charactersOrderHash}
-              render={isUpdated => <FightTableRow index={index} character={character} fadeIn={isUpdated} />}
+              render={isUpdated => (
+                <FightTableRow index={index} character={character} fadeIn={isUpdated} />
+              )}
             />
           ))}
         </TableBody>

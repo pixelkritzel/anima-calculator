@@ -10,7 +10,7 @@ import { createGenerateClassName } from '@material-ui/core/styles';
 import '#src/stylesheets/style.css';
 
 const generateClassName = createGenerateClassName({
-  dangerouslyUseGlobalCSS: true
+  dangerouslyUseGlobalCSS: true,
 });
 
 ReactDOM.render(

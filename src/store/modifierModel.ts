@@ -8,11 +8,17 @@ export type IModifierData = {
   value: number;
 };
 
-export const ModifierModel = types.model('modifier', {
-  id: types.optional(types.identifier, generateUUID),
-  changePerTurn: types.optional(types.number, 0),
-  reason: types.optional(types.string, ''),
-  value: types.number
-});
+export const ModifierModel = types
+  .model('modifier', {
+    id: types.optional(types.identifier, generateUUID),
+    changePerTurn: types.optional(types.number, 0),
+    reason: types.optional(types.string, ''),
+    value: types.number,
+  })
+  .actions(self => ({
+    setValue(value: number) {
+      self.value = value;
+    },
+  }));
 
 export type IModifierModel = typeof ModifierModel.Type;

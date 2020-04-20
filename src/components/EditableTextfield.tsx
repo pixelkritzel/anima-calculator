@@ -54,7 +54,12 @@ class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
     const usedType = type || 'text';
     return (
       <form style={{ display: 'inline-block' }} onSubmit={this.onSubmit}>
-        <TextField autoFocus type={usedType} defaultValue={value} inputRef={ref => (this.inputRef = ref)} />
+        <TextField
+          autoFocus
+          type={usedType}
+          defaultValue={value}
+          inputRef={ref => (this.inputRef = ref)}
+        />
         <IconButton onClick={this.toggleIsEditable}>&times;</IconButton>
         <IconButton onClick={this.saveChanges}>
           <IconCheck />

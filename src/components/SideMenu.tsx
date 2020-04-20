@@ -54,7 +54,12 @@ export default class SideMenu extends React.Component<{ store?: IStore }, {}> {
           <ListItem button component={LabelForImportJSON}>
             <ListItemText primary="Import" />
           </ListItem>
-          <input className="visually-hidden" type="file" id="import-json" onChange={this.readFile} />
+          <input
+            className="visually-hidden"
+            type="file"
+            id="import-json"
+            onChange={this.readFile}
+          />
         </List>
       </Drawer>
     );

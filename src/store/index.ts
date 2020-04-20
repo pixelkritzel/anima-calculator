@@ -13,15 +13,15 @@ const initialData = {
   characters: [],
   fight: {
     phase: 'new',
-    fightingCharacters: []
+    fightingCharacters: [],
   },
   modifiers: [
     {
       id: 'modifier-unarmed',
       value: 20,
-      reason: 'Unarmed'
-    }
-  ]
+      reason: 'Unarmed',
+    },
+  ],
 } as IStoreData;
 
 const storeConstructor = types
@@ -30,14 +30,17 @@ const storeConstructor = types
     activeTab: types.enumeration(['charactersView', 'fightView']),
     characters: types.array(characterModel),
     fight: fightModel,
-    modifiers: types.array(ModifierModel)
+    modifiers: types.array(ModifierModel),
   })
   .views(self => ({
     get charactersNotInFight() {
       return self.characters.filter(
-        char => !self.fight.fightingCharacters.find(fightingChar => fightingChar.baseCharacter.id === char.id)
+        char =>
+          !self.fight.fightingCharacters.find(
+            fightingChar => fightingChar.baseCharacter.id === char.id
+          )
       );
-    }
+    },
   }))
   .actions(self => ({
     addCharacter(characterData: ICharacterModelData) {
@@ -46,13 +49,15 @@ const storeConstructor = types
     addCharacterToFight(characterId: ICharacterModel['id']) {
       const characterInFight = characterInFightModel.create({
         baseCharacter: characterId,
-        inititiaveModifiers: ['modifier-unarmed']
+        inititiaveModifiers: ['modifier-unarmed'],
       });
       characterInFight.rolld100();
       self.fight.fightingCharacters.push(characterInFight);
     },
     deleteCharacter(character: ICharacterModel) {
-      const characterInFight = self.fight.fightingCharacters.find(fightChar => fightChar.baseCharacter === character);
+      const characterInFight = self.fight.fightingCharacters.find(
+        fightChar => fightChar.baseCharacter === character
+      );
       if (characterInFight) {
         destroy(characterInFight);
       }
@@ -63,7 +68,7 @@ const storeConstructor = types
     },
     setActiveTab(value: 'charactersView' | 'fightView') {
       self.activeTab = value;
-    }
+    },
   }));
 
 export type IStore = typeof storeConstructor.Type;

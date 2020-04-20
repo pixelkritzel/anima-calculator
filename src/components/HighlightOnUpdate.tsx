@@ -8,7 +8,7 @@ type IHighLightOnUpdateProps = {
 
 export default class HighlightOnUpdate extends React.Component<IHighLightOnUpdateProps, {}> {
   state = {
-    isUpdate: false
+    isUpdate: false,
   };
 
   ref: HTMLSpanElement | null;

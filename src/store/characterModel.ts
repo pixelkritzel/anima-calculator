@@ -9,7 +9,7 @@ export const characterModel = types
     lifepoints: types.number,
     name: types.string,
     powerPoints: types.optional(types.number, 0),
-    powerPointsAccumulation: types.optional(types.number, 0)
+    powerPointsAccumulation: types.optional(types.number, 0),
   })
   .actions(self => ({
     setBaseInitiative(ini: number) {
@@ -26,7 +26,7 @@ export const characterModel = types
     },
     setPowerPointsAccumulation(accumulation: number) {
       self.powerPointsAccumulation = accumulation;
-    }
+    },
   }));
 
 export type ICharacterModel = Instance<typeof characterModel>;

@@ -19,7 +19,7 @@ const characterScaffold = {
   lifepoints: 0,
   name: '',
   powerPoints: 0,
-  powerPointsAccumulation: 0
+  powerPointsAccumulation: 0,
 } as ICharacterModelData;
 
 @inject('store')
@@ -83,7 +83,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
                 this.character.group = value;
               }}
               inputProps={{
-                id: 'select-character-group'
+                id: 'select-character-group',
               }}
             >
               <MenuItem value="player">Player</MenuItem>

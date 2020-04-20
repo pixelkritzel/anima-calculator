@@ -33,7 +33,11 @@ class Fight extends React.Component<{ store?: IStore }, {}> {
   };
 
   newFight = () => {
-    if (confirm('Are you sure you want to remove ALL characters from the current fight and start a new one?')) {
+    if (
+      confirm(
+        'Are you sure you want to remove ALL characters from the current fight and start a new one?'
+      )
+    ) {
       this.props.store!.fight.newFight();
     }
   };

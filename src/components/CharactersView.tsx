@@ -17,7 +17,11 @@ class CharactersView extends React.Component {
       <>
         <CharactersTable />
         <AddButton onAdd={() => (this.showAddUserForm = true)} />
-        <AppModal open={this.showAddUserForm} modalTitle="Add character" onClose={() => (this.showAddUserForm = false)}>
+        <AppModal
+          open={this.showAddUserForm}
+          modalTitle="Add character"
+          onClose={() => (this.showAddUserForm = false)}
+        >
           <CharacterAddForm />
         </AppModal>
       </>

@@ -26,7 +26,7 @@ export const FADE_IN_DURATION = 100;
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
   state = {
-    hide: false
+    hide: false,
   };
 
   timeoutId: NodeJS.Timer;
@@ -35,7 +35,10 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
     if (nextProps.fadeIn) {
       clearTimeout(this.timeoutId);
       this.setState({ hide: true });
-      this.timeoutId = setTimeout(() => this.setState({ hide: false }), (nextProps.index + 1) * FADE_IN_DURATION);
+      this.timeoutId = setTimeout(
+        () => this.setState({ hide: false }),
+        (nextProps.index + 1) * FADE_IN_DURATION
+      );
     }
   }
 
@@ -48,7 +51,10 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
     return this.state.hide ? (
       <TableRow />
     ) : (
-      <TableRow className={cx({ 'fade-in-table-row': fadeIn })} selected={store!.fight.activeCharacter === index}>
+      <TableRow
+        className={cx({ 'fade-in-table-row': fadeIn })}
+        selected={store!.fight.activeCharacter === index}
+      >
         <TableCell>
           <Checkbox checked={character.acted} onClick={character.toogleActed} />
         </TableCell>
@@ -102,7 +108,9 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
           tracking={character.currentInitiative}
           resetAfter={1500}
           render={isUpdate => (
-            <TableCell className={cx({ 'value-changed': isUpdate })}>{character.currentInitiative}</TableCell>
+            <TableCell className={cx({ 'value-changed': isUpdate })}>
+              {character.currentInitiative}
+            </TableCell>
           )}
         />
         <HighlightOnUpdate
@@ -132,7 +140,10 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         <TableCell>
           <Button onClick={character.rolld100}>Roll D100</Button>
           <br />
-          <Button color="secondary" onClick={() => store!.fight.removeCharacterFromFight(character)}>
+          <Button
+            color="secondary"
+            onClick={() => store!.fight.removeCharacterFromFight(character)}
+          >
             Remove Character from Fight
           </Button>
         </TableCell>

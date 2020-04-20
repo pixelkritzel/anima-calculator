@@ -17,9 +17,21 @@ type IAppModalProps = {
 
 export default class AppModal extends React.Component<IAppModalProps, {}> {
   render() {
-    const { ariaDescription = '', ariaLabelledBy = '', children, modalTitle, onClose, open } = this.props;
+    const {
+      ariaDescription = '',
+      ariaLabelledBy = '',
+      children,
+      modalTitle,
+      onClose,
+      open,
+    } = this.props;
     return (
-      <Modal aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescription} onClose={onClose} open={open}>
+      <Modal
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescription}
+        onClose={onClose}
+        open={open}
+      >
         <Paper className="modal">
           <Grid container justify="space-between" alignItems="center">
             <Grid item>

@@ -21,14 +21,15 @@ const jsonConverters = {
       {
         id: 'modifier-unarmed',
         value: 20,
-        reason: 'Unarmed'
-      }
+        reason: 'Unarmed',
+      },
     ];
     json.fight.fightingCharacters.forEach(
-      (c: { inititiaveModifiers: []; lifepointsModifiers: [] }) => (c.inititiaveModifiers = c.lifepointsModifiers = [])
+      (c: { inititiaveModifiers: []; lifepointsModifiers: [] }) =>
+        (c.inititiaveModifiers = c.lifepointsModifiers = [])
     );
     json.version = 2;
-  }
+  },
 };
 
 function updateJSON(json: any) {

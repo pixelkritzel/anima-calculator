@@ -41,19 +41,21 @@ export default class FightAddCharacters extends React.Component<IFightAddCharact
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.store!.charactersNotInFight.map(({ name, group, baseInitiative, id }, index) => (
-              <TableRow key={index}>
-                <TableCell>{index}</TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell>{group}</TableCell>
-                <TableCell>{baseInitiative}</TableCell>
-                <TableCell>
-                  <Button color="primary" onClick={() => this.addCharacterToFight(id)}>
-                    Add character to fight
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {this.props.store!.charactersNotInFight.map(
+              ({ name, group, baseInitiative, id }, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index}</TableCell>
+                  <TableCell>{name}</TableCell>
+                  <TableCell>{group}</TableCell>
+                  <TableCell>{baseInitiative}</TableCell>
+                  <TableCell>
+                    <Button color="primary" onClick={() => this.addCharacterToFight(id)}>
+                      Add character to fight
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </div>

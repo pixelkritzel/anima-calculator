@@ -37,7 +37,7 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
   modifier = {
     changePerTurn: 0,
     reason: '',
-    value: 0
+    value: 0,
   };
 
   addModifier = (event: React.FormEvent) => {
@@ -73,7 +73,7 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
             onChange={this.selectModifier}
             inputProps={{
               name: 'preexisting-modifier',
-              id: 'preexisting-modifier'
+              id: 'preexisting-modifier',
             }}
           >
             <MenuItem value="" key="none">

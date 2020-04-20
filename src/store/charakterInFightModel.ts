@@ -16,7 +16,7 @@ export const characterInFightModel = types
     accumulatedPowerPoints: 0,
     hasAccumulated: false,
     d100: 0,
-    acted: false
+    acted: false,
   })
   .views(self => ({
     get currentInitiative() {
@@ -26,7 +26,7 @@ export const characterInFightModel = types
     get currentLifepoints() {
       const sumOfModifiers = self.lifepointsModifiers.reduce((prev, mod) => prev + mod.value, 0);
       return self.baseCharacter.lifepoints + sumOfModifiers;
-    }
+    },
   }))
   .views(self => ({
     get advantageAgainst() {
@@ -40,7 +40,7 @@ export const characterInFightModel = types
     },
     get criticalHit() {
       return Math.round(self.currentLifepoints / 2);
-    }
+    },
   }))
   .actions(self => ({
     accumulatePowerPoints(half?: boolean) {
@@ -71,7 +71,7 @@ export const characterInFightModel = types
     },
     toogleActed() {
       self.acted = !self.acted;
-    }
+    },
   }));
 
 export type ICharakterInFightModel = Instance<typeof characterInFightModel>;
