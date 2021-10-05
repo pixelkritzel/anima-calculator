@@ -18,14 +18,14 @@ function LabelForImportJSON({ children, ...otherProps }: { children: React.React
 
 @inject('store')
 @observer
-export default class SideMenu extends React.Component<{ store?: IStore }, {}> {
+export default class SideMenu extends React.Component<{ store?: IStore }> {
   getURLEncodedJSON() {
     const serializedAppStore = JSON.stringify(this.props.store);
     return 'data:text/plain;charset=utf-8,' + encodeURIComponent(serializedAppStore);
   }
 
   readFile(event: React.ChangeEvent<HTMLInputElement>) {
-    var files = event.target.files; // FileList object
+    const files = event.target.files; // FileList object
     if (files) {
       const reader = new FileReader();
 

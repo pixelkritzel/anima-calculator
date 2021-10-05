@@ -3,19 +3,20 @@ import * as React from 'react';
 type IHighLightOnUpdateProps = {
   render: (isUpdate: boolean) => JSX.Element;
   resetAfter?: number;
-  tracking: any; // tslint:disable-line no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tracking: any;
 };
 
-export default class HighlightOnUpdate extends React.Component<IHighLightOnUpdateProps, {}> {
+export default class HighlightOnUpdate extends React.Component<IHighLightOnUpdateProps> {
   state = {
     isUpdate: false,
   };
 
-  ref: HTMLSpanElement | null;
+  ref: HTMLSpanElement | null = null;
 
-  timeoutId: NodeJS.Timer;
+  timeoutId = 0;
 
-  componentWillReceiveProps(nextProps: IHighLightOnUpdateProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: IHighLightOnUpdateProps) {
     clearTimeout(this.timeoutId);
     this.setState({ isUpdate: this.props.tracking !== nextProps.tracking }, this.resetIsUpdate);
   }
@@ -27,7 +28,7 @@ export default class HighlightOnUpdate extends React.Component<IHighLightOnUpdat
   resetIsUpdate = () => {
     const { resetAfter } = this.props;
     if (resetAfter) {
-      this.timeoutId = setTimeout(() => this.setState({ isUpdate: false }), resetAfter);
+      this.timeoutId = window.setTimeout(() => this.setState({ isUpdate: false }), resetAfter);
     }
   };
 

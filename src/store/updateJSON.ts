@@ -1,8 +1,8 @@
-import { LAST_JSON_VERSION } from '#src/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { LAST_JSON_VERSION } from 'store';
 
-/* tslint:disable no-any */
-const jsonConverters = {
-  1: function(json: any) {
+const jsonConverters: { [key: number]: (json: any) => void } = {
+  1: function (json: any) {
     // rename property modifiers on fightingCharacter to inititiaveModifiers
     json.fight.fightingCharacters.forEach((character: any) => {
       character.inititiaveModifiers = character.modifiers;
@@ -16,7 +16,7 @@ const jsonConverters = {
     delete json.idCounter;
     json.version! = 1;
   },
-  2: function(json: any) {
+  2: function (json: any) {
     json.modifiers = [
       {
         id: 'modifier-unarmed',
@@ -40,6 +40,5 @@ function updateJSON(json: any) {
     }
   }
 }
-/* tslint:enable */
 
 export default updateJSON;

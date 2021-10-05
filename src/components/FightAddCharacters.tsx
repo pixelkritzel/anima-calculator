@@ -8,8 +8,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { IStore } from '#src/store';
-import { ICharacterModel } from '#src/store/characterModel';
+import { IStore } from 'store';
+import { ICharacterModel } from 'store/characterModel';
 
 type IFightAddCharactersProps = {
   close: () => void;
@@ -18,7 +18,7 @@ type IFightAddCharactersProps = {
 
 @inject('store')
 @observer
-export default class FightAddCharacters extends React.Component<IFightAddCharactersProps, {}> {
+export default class FightAddCharacters extends React.Component<IFightAddCharactersProps> {
   addCharacterToFight = (characterId: ICharacterModel['id']) => {
     const { store } = this.props;
     store!.addCharacterToFight(characterId);

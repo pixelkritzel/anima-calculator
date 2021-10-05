@@ -1,11 +1,11 @@
 import { destroy, types } from 'mobx-state-tree';
 import { isNull } from 'lodash';
 
-import { characterInFightModel, ICharakterInFightModel } from '#src/store/charakterInFightModel';
-import { IModifierModel } from '#src/store/modifierModel';
+import { characterInFightModel, ICharakterInFightModel } from 'store/charakterInFightModel';
+import { IModifierModel } from 'store/modifierModel';
 
 function updateModifiersForNextTurn(modifiers: IModifierModel[]) {
-  modifiers.forEach(modifier => {
+  modifiers.forEach((modifier) => {
     modifier.setValue(modifier.value + modifier.value);
     if (modifier.changePerTurn && modifier.value >= 0) {
       destroy(modifier);
@@ -18,26 +18,34 @@ export const fightModel = types
     fightingCharacters: types.array(characterInFightModel),
     activeCharacter: 0,
   })
-  .views(self => ({
+  .views((self) => ({
     get isFightAble() {
       return self.fightingCharacters.length > 1;
     },
     get isFightStartable() {
       return (
         self.fightingCharacters.length > 0 &&
-        self.fightingCharacters.every(character => !isNull(character.currentInitiative))
+        self.fightingCharacters.every((character) => !isNull(character.currentInitiative))
       );
     },
     get fightingCharactersByInitiative() {
       return self.fightingCharacters.sort((a, b) => b.currentInitiative! - a.currentInitiative!);
     },
+    getAdvantageAgainst(actingCharacterInitiative: ICharakterInFightModel['currentInitiative']) {
+      return self.fightingCharacters.filter(
+        (opponent) =>
+          !isNull(opponent.currentInitiative) &&
+          !isNull(actingCharacterInitiative) &&
+          opponent.currentInitiative + 150 < actingCharacterInitiative
+      );
+    },
   }))
-  .actions(self => ({
+  .actions((self) => ({
     newFight() {
       self.fightingCharacters.clear();
     },
     newTurn() {
-      self.fightingCharacters.forEach(character => {
+      self.fightingCharacters.forEach((character) => {
         character.acted = false;
         character.hasAccumulated = false;
         character.rolld100();

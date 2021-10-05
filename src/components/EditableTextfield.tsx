@@ -14,11 +14,11 @@ type IEditableTextfieldProps = {
 };
 
 @observer
-class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
+class EditableTextfield extends React.Component<IEditableTextfieldProps> {
   @observable
   isEditable = false;
 
-  inputRef: HTMLInputElement | null;
+  inputRef: HTMLInputElement | null = null;
 
   toggleIsEditable = () => {
     this.isEditable = !this.isEditable;
@@ -58,7 +58,7 @@ class EditableTextfield extends React.Component<IEditableTextfieldProps, {}> {
           autoFocus
           type={usedType}
           defaultValue={value}
-          inputRef={ref => (this.inputRef = ref)}
+          inputRef={(ref) => (this.inputRef = ref)}
         />
         <IconButton onClick={this.toggleIsEditable}>&times;</IconButton>
         <IconButton onClick={this.saveChanges}>

@@ -1,15 +1,14 @@
-import { getParent, types, Instance } from 'mobx-state-tree';
-import { isNull } from 'lodash';
+import { types, Instance } from 'mobx-state-tree';
 
-import { characterModel } from '#src/store/characterModel';
-import rollD100 from '#src/utils/d100';
+import { characterModel } from 'store/characterModel';
+import rollD100 from 'utils/d100';
 
-import { ModifierModel, IModifierModel, IModifierData } from '#src/store/modifierModel';
-import generateUUID from '#src/utils/generateUUID';
+import { ModifierModel, IModifierModel, IModifierData } from 'store/modifierModel';
+import { v4 as uuid4 } from 'uuid';
 
 export const characterInFightModel = types
   .model('characterInFight', {
-    id: types.optional(types.identifier, generateUUID),
+    id: types.optional(types.identifier, uuid4),
     baseCharacter: types.reference(characterModel),
     inititiaveModifiers: types.array(types.reference(ModifierModel)),
     lifepointsModifiers: types.array(types.reference(ModifierModel)),
@@ -18,7 +17,7 @@ export const characterInFightModel = types
     d100: 0,
     acted: false,
   })
-  .views(self => ({
+  .views((self) => ({
     get currentInitiative() {
       const sumOfModifiers = self.inititiaveModifiers.reduce((prev, mod) => prev + mod.value, 0);
       return self.baseCharacter.baseInitiative + sumOfModifiers + self.d100;
@@ -28,21 +27,12 @@ export const characterInFightModel = types
       return self.baseCharacter.lifepoints + sumOfModifiers;
     },
   }))
-  .views(self => ({
-    get advantageAgainst() {
-      const allOpponents: ICharakterInFightModel[] = getParent(self);
-      return allOpponents.filter(
-        opponent =>
-          !isNull(opponent.currentInitiative) &&
-          !isNull(self.currentInitiative) &&
-          opponent.currentInitiative + 150 < self.currentInitiative
-      );
-    },
+  .views((self) => ({
     get criticalHit() {
       return Math.round(self.currentLifepoints / 2);
     },
   }))
-  .actions(self => ({
+  .actions((self) => ({
     accumulatePowerPoints(half?: boolean) {
       self.accumulatedPowerPoints += half
         ? Math.round(self.baseCharacter.powerPointsAccumulation / 2)
@@ -53,14 +43,14 @@ export const characterInFightModel = types
       self.inititiaveModifiers.push(modifier);
     },
     removeIniModifier(id: string) {
-      const index = self.inititiaveModifiers.findIndex(mod => mod.id === id);
+      const index = self.inititiaveModifiers.findIndex((mod) => mod.id === id);
       self.inititiaveModifiers.splice(index, 1);
     },
     addLifepointsModifier(modifierData: IModifierData) {
       self.lifepointsModifiers.push(ModifierModel.create(modifierData));
     },
     removeLifepointsModifier(id: string) {
-      const index = self.lifepointsModifiers.findIndex(mod => mod.id === id);
+      const index = self.lifepointsModifiers.findIndex((mod) => mod.id === id);
       self.lifepointsModifiers.splice(index, 1);
     },
     resetAccumulated() {

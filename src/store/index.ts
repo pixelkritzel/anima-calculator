@@ -1,9 +1,9 @@
 import { applySnapshot, destroy, onPatch, types, SnapshotIn } from 'mobx-state-tree';
 
-import { characterModel, ICharacterModel, ICharacterModelData } from '#src/store/characterModel';
-import { characterInFightModel } from '#src/store/charakterInFightModel';
-import { fightModel } from '#src/store/fightModel';
-import updateJSON from '#src/store/updateJSON';
+import { characterModel, ICharacterModel, ICharacterModelData } from 'store/characterModel';
+import { characterInFightModel } from 'store/charakterInFightModel';
+import { fightModel } from 'store/fightModel';
+import updateJSON from 'store/updateJSON';
 import { ModifierModel, IModifierModel } from './modifierModel';
 
 export const LAST_JSON_VERSION = 2;
@@ -32,17 +32,17 @@ const storeConstructor = types
     fight: fightModel,
     modifiers: types.array(ModifierModel),
   })
-  .views(self => ({
+  .views((self) => ({
     get charactersNotInFight() {
       return self.characters.filter(
-        char =>
+        (char) =>
           !self.fight.fightingCharacters.find(
-            fightingChar => fightingChar.baseCharacter.id === char.id
+            (fightingChar) => fightingChar.baseCharacter.id === char.id
           )
       );
     },
   }))
-  .actions(self => ({
+  .actions((self) => ({
     addCharacter(characterData: ICharacterModelData) {
       self.characters.push(characterModel.create(characterData));
     },
@@ -56,7 +56,7 @@ const storeConstructor = types
     },
     deleteCharacter(character: ICharacterModel) {
       const characterInFight = self.fight.fightingCharacters.find(
-        fightChar => fightChar.baseCharacter === character
+        (fightChar) => fightChar.baseCharacter === character
       );
       if (characterInFight) {
         destroy(characterInFight);
@@ -75,7 +75,7 @@ export type IStore = typeof storeConstructor.Type;
 export type IStoreData = SnapshotIn<typeof storeConstructor>;
 export const store = storeConstructor.create(initialData);
 
-// tslint:disable-next-line no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const applyImportedData = (data: any) => {
   data.version = data.version || 0;
   updateJSON(data);
@@ -90,7 +90,9 @@ let savedData;
 if (jsonFormLocalStorage) {
   try {
     savedData = JSON.parse(jsonFormLocalStorage);
-  } catch (e) {} // tslint:disable-line
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 console.log(savedData);

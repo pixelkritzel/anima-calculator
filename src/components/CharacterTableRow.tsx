@@ -7,8 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import EditableTextField from './EditableTextfield';
 
-import { IStore } from '#src/store';
-import { ICharacterModel } from '#src/store/characterModel';
+import { IStore } from 'store';
+import { ICharacterModel } from 'store/characterModel';
 
 type ICharactersTableRowProps = {
   character: ICharacterModel;
@@ -19,7 +19,7 @@ type ICharactersTableRowProps = {
 
 @inject('store')
 @observer
-class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
+class CharactersTableRow extends React.Component<ICharactersTableRowProps> {
   deleteCharacter = (character: ICharacterModel) => {
     if (confirm(`Do you really want to delete ${character.name}?`)) {
       this.props.store!.deleteCharacter(character);
@@ -39,28 +39,28 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
           <EditableTextField
             value={character.lifepoints.toString()}
             type="number"
-            onSave={value => character.setLifePoints(parseInt(value, 10))}
+            onSave={(value) => character.setLifePoints(parseInt(value, 10))}
           />
         </TableCell>
         <TableCell>
           <EditableTextField
             value={character.baseInitiative.toString()}
             type="number"
-            onSave={value => character.setBaseInitiative(parseInt(value, 10))}
+            onSave={(value) => character.setBaseInitiative(parseInt(value, 10))}
           />
         </TableCell>
         <TableCell>
           <EditableTextField
             value={character.powerPoints.toString()}
             type="number"
-            onSave={value => character.setPowerPoints(parseInt(value, 10))}
+            onSave={(value) => character.setPowerPoints(parseInt(value, 10))}
           />
         </TableCell>
         <TableCell>
           <EditableTextField
             value={character.powerPointsAccumulation.toString()}
             type="number"
-            onSave={value => character.setPowerPointsAccumulation(parseInt(value, 10))}
+            onSave={(value) => character.setPowerPointsAccumulation(parseInt(value, 10))}
           />
         </TableCell>
         <TableCell>

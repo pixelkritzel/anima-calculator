@@ -4,14 +4,14 @@ import { observer, Provider } from 'mobx-react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
-import CharactersView from '#src/components/CharactersView';
-import FightView from '#src/components/FightView';
-import SideMenu from '#src/components/SideMenu';
+import CharactersView from 'components/CharactersView';
+import FightView from 'components/FightView';
+import SideMenu from 'components/SideMenu';
 
-import { store } from '#src/store';
+import { store } from 'store';
 
 @observer
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
@@ -36,3 +36,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default App;

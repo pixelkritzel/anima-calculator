@@ -9,24 +9,25 @@ import IconButton from '@material-ui/core/IconButton';
 import IconCheck from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
 
-import AppModal from '#src/components/AppModal';
+import AppModal from 'components/AppModal';
 
-import { IModifierData, IModifierModel, ModifierModel } from '#src/store/modifierModel';
-import { IStore } from '#src/store';
+import { IModifierModel, ModifierModel } from 'store/modifierModel';
+import { IStore } from 'store';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { ICharakterInFightModel } from 'store/charakterInFightModel';
 
 type IModifiersProps = {
   modifiers: IModifierModel[];
-  addModifier: (modifierData: IModifierData) => void;
+  addModifier: ICharakterInFightModel['addIniModifier'];
   removeModifier: (is: string) => void;
   store?: IStore;
 };
 
 @inject('store')
 @observer
-export default class Modifiers extends React.Component<IModifiersProps, {}> {
+export default class Modifiers extends React.Component<IModifiersProps> {
   @observable
   showModifierModal = false;
 
@@ -49,14 +50,14 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
     this.showModifierModal = false;
   };
 
-  selectModifier = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  selectModifier = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { value: id } = event.target;
     if (!id) {
       return;
     }
     const { addModifier, store } = this.props;
     const { modifiers } = store!;
-    const selectedModifier = modifiers.find(mod => mod.id === id);
+    const selectedModifier = modifiers.find((mod) => mod.id === id);
     addModifier(selectedModifier!);
     this.showModifierModal = false;
   };
@@ -79,7 +80,7 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
             <MenuItem value="" key="none">
               <em>None</em>
             </MenuItem>
-            {modifiers.map(mod => (
+            {modifiers.map((mod) => (
               <MenuItem key={mod.id} value={mod.id}>
                 {mod.reason + ': ' + mod.value}
               </MenuItem>
@@ -92,21 +93,21 @@ export default class Modifiers extends React.Component<IModifiersProps, {}> {
               autoFocus
               label="Modfier reason"
               type="text"
-              onChange={event => (this.modifier.reason = event.target.value)}
+              onChange={(event) => (this.modifier.reason = event.target.value)}
             />
           </FormControl>
           <FormControl fullWidth margin="normal">
             <TextField
               label="Modfier value"
               type="number"
-              onChange={event => (this.modifier.value = parseInt(event.target.value, 10))}
+              onChange={(event) => (this.modifier.value = parseInt(event.target.value, 10))}
             />
           </FormControl>
           <FormControl fullWidth margin="normal">
             <TextField
               label="Change per turn"
               type="number"
-              onChange={event => (this.modifier.changePerTurn = parseInt(event.target.value, 10))}
+              onChange={(event) => (this.modifier.changePerTurn = parseInt(event.target.value, 10))}
             />
           </FormControl>
 

@@ -9,11 +9,11 @@ import AppModal from './AppModal';
 import FightAddCharacters from './FightAddCharacters';
 import FightTable from './FightTable';
 
-import { IStore } from '#src/store';
+import { IStore } from 'store';
 
 @inject('store')
 @observer
-class Fight extends React.Component<{ store?: IStore }, {}> {
+class Fight extends React.Component<{ store?: IStore }> {
   @observable
   showFightAddCharacters = false;
 

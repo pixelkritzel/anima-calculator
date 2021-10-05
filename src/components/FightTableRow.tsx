@@ -7,11 +7,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-import HighlightOnUpdate from '#src/components/HighlightOnUpdate';
-import Modifiers from '#src/components/Modifiers';
+import HighlightOnUpdate from 'components/HighlightOnUpdate';
+import Modifiers from 'components/Modifiers';
 
-import { IStore } from '#src/store';
-import { ICharakterInFightModel } from '#src/store/charakterInFightModel';
+import { IStore } from 'store';
+import { ICharakterInFightModel } from 'store/charakterInFightModel';
 
 type ICharactersTableRowProps = {
   fadeIn: boolean;
@@ -24,18 +24,18 @@ export const FADE_IN_DURATION = 100;
 
 @inject('store')
 @observer
-class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
+class CharactersTableRow extends React.Component<ICharactersTableRowProps> {
   state = {
     hide: false,
   };
 
-  timeoutId: NodeJS.Timer;
+  timeoutId = 0;
 
-  componentWillReceiveProps(nextProps: ICharactersTableRowProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: ICharactersTableRowProps) {
     if (nextProps.fadeIn) {
       clearTimeout(this.timeoutId);
       this.setState({ hide: true });
-      this.timeoutId = setTimeout(
+      this.timeoutId = window.setTimeout(
         () => this.setState({ hide: false }),
         (nextProps.index + 1) * FADE_IN_DURATION
       );
@@ -48,6 +48,8 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
 
   render() {
     const { fadeIn, character, index, store } = this.props;
+
+    const advantageAgainst = store!.fight.getAdvantageAgainst(character.currentInitiative);
     return this.state.hide ? (
       <TableRow />
     ) : (
@@ -107,7 +109,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         <HighlightOnUpdate
           tracking={character.currentInitiative}
           resetAfter={1500}
-          render={isUpdate => (
+          render={(isUpdate) => (
             <TableCell className={cx({ 'value-changed': isUpdate })}>
               {character.currentInitiative}
             </TableCell>
@@ -116,19 +118,19 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps, {}> {
         <HighlightOnUpdate
           tracking={character.currentLifepoints}
           resetAfter={1500}
-          render={isUpdate => (
+          render={(isUpdate) => (
             <TableCell className={cx({ 'value-changed': isUpdate })}>
               <strong>{character.currentLifepoints}</strong> <br /> / ({character.criticalHit})
             </TableCell>
           )}
         />
         <HighlightOnUpdate
-          tracking={character.advantageAgainst.map(char => char.baseCharacter.id).join('')}
+          tracking={advantageAgainst.map((char) => char.baseCharacter.id).join('')}
           resetAfter={1500}
-          render={isUpdate => (
+          render={(isUpdate) => (
             <TableCell className={cx({ 'value-changed': isUpdate })}>
               <ul>
-                {character.advantageAgainst.map(opponent => (
+                {advantageAgainst.map((opponent) => (
                   <li key={`${character.baseCharacter.id}-${opponent.baseCharacter.id}`}>
                     {opponent.baseCharacter.name}
                   </li>

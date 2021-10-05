@@ -7,13 +7,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import CharacterTableRow from '#src/components/CharacterTableRow';
+import CharacterTableRow from 'components/CharacterTableRow';
 
-import { IStore } from '#src/store';
+import { IStore } from 'store';
 
 @inject('store')
 @observer
-export default class CharactersTable extends React.Component<{ store?: IStore }, {}> {
+export default class CharactersTable extends React.Component<{ store?: IStore }> {
   render() {
     return (
       <Table>

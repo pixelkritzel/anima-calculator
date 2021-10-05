@@ -2,10 +2,10 @@ import * as React from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
-import AddButton from '#src/components/AddButton';
-import AppModal from '#src/components/AppModal';
-import CharacterAddForm from '#src/components/CharacterAddForm';
-import CharactersTable from '#src/components/CharactersTable';
+import AddButton from 'components/AddButton';
+import AppModal from 'components/AppModal';
+import CharacterAddForm from 'components/CharacterAddForm';
+import CharactersTable from 'components/CharactersTable';
 
 @observer
 class CharactersView extends React.Component {

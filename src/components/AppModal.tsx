@@ -15,7 +15,7 @@ type IAppModalProps = {
   onClose: () => void;
 };
 
-export default class AppModal extends React.Component<IAppModalProps, {}> {
+export default class AppModal extends React.Component<IAppModalProps> {
   render() {
     const {
       ariaDescription = '',
@@ -35,7 +35,7 @@ export default class AppModal extends React.Component<IAppModalProps, {}> {
         <Paper className="modal">
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
-              <Typography variant="title" id="modal-title">
+              <Typography variant="h2" id="modal-title">
                 {modalTitle}
               </Typography>
             </Grid>

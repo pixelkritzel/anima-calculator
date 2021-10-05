@@ -10,8 +10,8 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { IStore } from '#src/store';
-import { ICharacterModelData } from '#src/store/characterModel';
+import { IStore } from 'store';
+import { ICharacterModelData } from 'store/characterModel';
 
 const characterScaffold = {
   baseInitiative: 0,
@@ -24,7 +24,7 @@ const characterScaffold = {
 
 @inject('store')
 @observer
-class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
+class CharacterAddForm extends React.Component<{ store?: IStore }> {
   @observable
   character = characterScaffold;
 
@@ -78,7 +78,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
             <InputLabel htmlFor="select-character-group">Group</InputLabel>
             <Select
               value={this.character.group}
-              onChange={event => {
+              onChange={(event) => {
                 const value = event.target.value as ICharacterModelData['group'];
                 this.character.group = value;
               }}
@@ -96,7 +96,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               type="number"
               value={this.character.lifepoints}
               placeholder="0"
-              onChange={event => {
+              onChange={(event) => {
                 this.character.lifepoints = parseInt(event.target.value, 10);
               }}
             />
@@ -107,7 +107,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               type="number"
               value={this.character.baseInitiative}
               placeholder="0"
-              onChange={event => {
+              onChange={(event) => {
                 this.character.baseInitiative = parseInt(event.target.value, 10);
               }}
             />
@@ -118,7 +118,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               type="number"
               value={this.character.powerPoints}
               placeholder="0"
-              onChange={event => {
+              onChange={(event) => {
                 this.character.powerPoints = parseInt(event.target.value, 10);
               }}
             />
@@ -129,7 +129,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }, {}> {
               type="number"
               value={this.character.powerPointsAccumulation}
               placeholder="0"
-              onChange={event => {
+              onChange={(event) => {
                 this.character.powerPointsAccumulation = parseInt(event.target.value, 10);
               }}
             />

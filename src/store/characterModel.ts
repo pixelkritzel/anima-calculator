@@ -1,9 +1,9 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import generateUUID from '#src/utils/generateUUID';
+import { v4 as uuid4 } from 'uuid';
 
 export const characterModel = types
   .model('character', {
-    id: types.optional(types.identifier, generateUUID),
+    id: types.optional(types.identifier, uuid4),
     baseInitiative: types.number,
     group: types.enumeration(['player', 'nsc']),
     lifepoints: types.number,
@@ -11,7 +11,7 @@ export const characterModel = types
     powerPoints: types.optional(types.number, 0),
     powerPointsAccumulation: types.optional(types.number, 0),
   })
-  .actions(self => ({
+  .actions((self) => ({
     setBaseInitiative(ini: number) {
       self.baseInitiative = ini;
     },
