@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer, Provider } from 'mobx-react';
+import { configure } from 'mobx';
 
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,6 +13,13 @@ import { store } from 'store';
 
 @observer
 class App extends React.Component {
+  constructor(props: any) {
+    super(props);
+    configure({
+      enforceActions: 'never',
+    });
+  }
+
   render() {
     return (
       <Provider store={store}>

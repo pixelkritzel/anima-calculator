@@ -1,6 +1,6 @@
 import { applySnapshot, destroy, onPatch, types, SnapshotIn } from 'mobx-state-tree';
 
-import { characterModel, ICharacterModel, ICharacterModelData } from 'store/characterModel';
+import { characterModel, ICharacterModel, SICharacter } from 'store/characterModel';
 import { characterInFightModel } from 'store/charakterInFightModel';
 import { fightModel } from 'store/fightModel';
 import updateJSON from 'store/updateJSON';
@@ -43,7 +43,7 @@ const storeConstructor = types
     },
   }))
   .actions((self) => ({
-    addCharacter(characterData: ICharacterModelData) {
+    addCharacter(characterData: SICharacter) {
       self.characters.push(characterModel.create(characterData));
     },
     addCharacterToFight(characterId: ICharacterModel['id']) {
@@ -94,8 +94,6 @@ if (jsonFormLocalStorage) {
     console.error(e);
   }
 }
-
-console.log(savedData);
 
 if (savedData) {
   try {

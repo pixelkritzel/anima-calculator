@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import AddButton from 'components/AddButton';
@@ -11,6 +11,11 @@ import CharactersTable from 'components/CharactersTable';
 class CharactersView extends React.Component {
   @observable
   showAddUserForm = false;
+
+  constructor(props: any) {
+    super(props);
+    makeObservable(this);
+  }
 
   render() {
     return (

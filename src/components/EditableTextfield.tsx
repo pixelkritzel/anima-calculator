@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -17,6 +17,11 @@ type IEditableTextfieldProps = {
 class EditableTextfield extends React.Component<IEditableTextfieldProps> {
   @observable
   isEditable = false;
+
+  constructor(props: any) {
+    super(props);
+    makeObservable(this);
+  }
 
   inputRef: HTMLInputElement | null = null;
 

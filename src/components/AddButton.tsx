@@ -13,7 +13,7 @@ export default class AddButton extends React.Component<IAddButtonProps> {
     return (
       <div className="add-button">
         <Zoom in unmountOnExit>
-          <Fab color="primary" aria-label="add">
+          <Fab color="primary" aria-label="add" onClick={this.props.onAdd}>
             <AddIcon />
           </Fab>
         </Zoom>

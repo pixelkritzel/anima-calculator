@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import IconClose from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
+import { observer } from 'mobx-react';
 
 type IAppModalProps = {
   ariaDescription?: string;
@@ -15,6 +16,7 @@ type IAppModalProps = {
   onClose: () => void;
 };
 
+@observer
 export default class AppModal extends React.Component<IAppModalProps> {
   render() {
     const {

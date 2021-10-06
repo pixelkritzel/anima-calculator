@@ -22,6 +22,10 @@ type ICharactersTableRowProps = {
 
 export const FADE_IN_DURATION = 100;
 
+const highlightTableRow: React.CSSProperties = {
+  backgroundColor: 'gold',
+};
+
 @inject('store')
 @observer
 class CharactersTableRow extends React.Component<ICharactersTableRowProps> {
@@ -56,6 +60,7 @@ class CharactersTableRow extends React.Component<ICharactersTableRowProps> {
       <TableRow
         className={cx({ 'fade-in-table-row': fadeIn })}
         selected={store!.fight.activeCharacter === index}
+        style={character.isActingSimultaneously ? highlightTableRow : undefined}
       >
         <TableCell>
           <Checkbox checked={character.acted} onClick={character.toogleActed} />

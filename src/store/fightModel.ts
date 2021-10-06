@@ -29,7 +29,27 @@ export const fightModel = types
       );
     },
     get fightingCharactersByInitiative() {
-      return self.fightingCharacters.sort((a, b) => b.currentInitiative! - a.currentInitiative!);
+      return self.fightingCharacters.slice().sort((a, b) => {
+        const currentInitiativeDifference = b.currentInitiative! - a.currentInitiative!;
+        const baseInitiativeDifference =
+          b.baseCharacter.baseInitiative! - a.baseCharacter.baseInitiative;
+        const agilityDifference = b.baseCharacter.agility - a.baseCharacter.agility;
+        if (
+          currentInitiativeDifference === 0 &&
+          baseInitiativeDifference === 0 &&
+          agilityDifference === 0
+        ) {
+          a.setIsActingSimultaneously(true);
+          b.setIsActingSimultaneously(true);
+        }
+        if (currentInitiativeDifference !== 0) {
+          return currentInitiativeDifference;
+        } else if (baseInitiativeDifference !== 0) {
+          return baseInitiativeDifference;
+        } else {
+          return agilityDifference;
+        }
+      });
     },
     getAdvantageAgainst(actingCharacterInitiative: ICharakterInFightModel['currentInitiative']) {
       return self.fightingCharacters.filter(
@@ -49,6 +69,7 @@ export const fightModel = types
         character.acted = false;
         character.hasAccumulated = false;
         character.rolld100();
+        character.setIsActingSimultaneously(false);
         updateModifiersForNextTurn(character.inititiaveModifiers);
         updateModifiersForNextTurn(character.lifepointsModifiers);
       });

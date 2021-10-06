@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { observer, inject } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
@@ -11,16 +11,17 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { IStore } from 'store';
-import { ICharacterModelData } from 'store/characterModel';
+import { SICharacter } from 'store/characterModel';
 
-const characterScaffold = {
+const characterScaffold: SICharacter = {
+  agility: 0,
   baseInitiative: 0,
   group: 'player',
   lifepoints: 0,
   name: '',
   powerPoints: 0,
   powerPointsAccumulation: 0,
-} as ICharacterModelData;
+} as const;
 
 @inject('store')
 @observer
@@ -33,6 +34,11 @@ class CharacterAddForm extends React.Component<{ store?: IStore }> {
 
   @observable
   nameErrorMessage = '';
+
+  constructor(props: any) {
+    super(props);
+    makeObservable(this);
+  }
 
   addCharacter = () => {
     if (!this.character.name.trim()) {
@@ -79,7 +85,7 @@ class CharacterAddForm extends React.Component<{ store?: IStore }> {
             <Select
               value={this.character.group}
               onChange={(event) => {
-                const value = event.target.value as ICharacterModelData['group'];
+                const value = event.target.value as SICharacter['group'];
                 this.character.group = value;
               }}
               inputProps={{
@@ -109,6 +115,17 @@ class CharacterAddForm extends React.Component<{ store?: IStore }> {
               placeholder="0"
               onChange={(event) => {
                 this.character.baseInitiative = parseInt(event.target.value, 10);
+              }}
+            />
+          </FormControl>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Agility"
+              type="number"
+              value={this.character.agility}
+              placeholder="0"
+              onChange={(event) => {
+                this.character.agility = parseInt(event.target.value, 10);
               }}
             />
           </FormControl>

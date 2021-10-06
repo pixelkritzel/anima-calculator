@@ -11,9 +11,9 @@ export type IModifierData = {
 export const ModifierModel = types
   .model('modifier', {
     id: types.optional(types.identifier, uuid4),
-    changePerTurn: types.optional(types.number, 0),
-    reason: types.optional(types.string, ''),
-    value: types.number,
+    changePerTurn: 0,
+    reason: '',
+    value: 0,
   })
   .actions((self) => ({
     setValue(value: number) {

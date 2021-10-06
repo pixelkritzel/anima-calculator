@@ -1,20 +1,22 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 
-import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { applyImportedData, IStore } from '../store';
+import Drawer from '@material-ui/core/Drawer';
 
 // Don't ask why ... https://github.com/mui-org/material-ui/issues/12486#issuecomment-412351212
-function LabelForImportJSON({ children, ...otherProps }: { children: React.ReactNode }) {
-  return (
-    <label htmlFor="import-json" {...otherProps}>
-      {children}
-    </label>
-  );
-}
+const LabelForImportJSON = React.forwardRef<HTMLLabelElement, { children: React.ReactNode }>(
+  function LabelForImportJSON({ children, ...otherProps }: { children?: React.ReactNode }, ref) {
+    return (
+      <label ref={ref} htmlFor="import-json" {...otherProps}>
+        {children}
+      </label>
+    );
+  }
+);
 
 @inject('store')
 @observer

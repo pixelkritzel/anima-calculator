@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
@@ -16,6 +16,11 @@ import { IStore } from 'store';
 class Fight extends React.Component<{ store?: IStore }> {
   @observable
   showFightAddCharacters = false;
+
+  constructor(props: any) {
+    super(props);
+    makeObservable(this);
+  }
 
   componentDidMount() {
     window.addEventListener('keypress', this.onKeyPress);

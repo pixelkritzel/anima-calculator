@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
@@ -40,6 +40,11 @@ export default class Modifiers extends React.Component<IModifiersProps> {
     reason: '',
     value: 0,
   };
+
+  constructor(props: any) {
+    super(props);
+    makeObservable(this);
+  }
 
   addModifier = (event: React.FormEvent) => {
     event.preventDefault();

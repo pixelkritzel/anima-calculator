@@ -16,6 +16,7 @@ export const characterInFightModel = types
     hasAccumulated: false,
     d100: 0,
     acted: false,
+    isActingSimultaneously: false,
   })
   .views((self) => ({
     get currentInitiative() {
@@ -61,6 +62,9 @@ export const characterInFightModel = types
     },
     toogleActed() {
       self.acted = !self.acted;
+    },
+    setIsActingSimultaneously(isActingSimultaneously: boolean) {
+      self.isActingSimultaneously = isActingSimultaneously;
     },
   }));
 
